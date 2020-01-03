@@ -1,0 +1,8 @@
+{
+  "/upp-backend": {
+    "target": "https://localhost:8080",
+    "secure": false,
+    "changeOrigin":true,
+    "logLevel": "debug"
+  }
+}
