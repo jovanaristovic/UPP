@@ -2,15 +2,44 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { RegistrationComponent } from './Components/registration/registration.component';
+import {NavbarComponent} from './Components/navbar/navbar.component';
+import {HomeComponent} from './Components/home/home.component';
+import {AppRoutingModule} from './app-routing.module';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {LoginComponent} from './Components/login/login.component';
+import {CanActivateService} from './Services/security/can-activate.service';
+import {TokenInterceptorService} from './Services/security/token-interceptor';
+import {ToastrModule} from 'ng6-toastr-notifications';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RegistrationComponent,
+    NavbarComponent,
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
-    BrowserModule
+      BrowserModule,
+      AppRoutingModule,
+      HttpClientModule,
+      FormsModule,
+      ToastrModule.forRoot(),
+      BrowserAnimationsModule
+
   ],
-  providers: [],
+  providers: [
+      CanActivateService,
+      {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptorService,
+          multi: true
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

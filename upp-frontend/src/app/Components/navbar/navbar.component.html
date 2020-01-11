@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #03A9F4">
+  <a class="navbar-brand" routerLink="home">
+    <div>Naucna centrala</div>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+    <ul id="user" class="navbar-nav ml-auto" style="margin-right: 5%">
+      <li  *ngIf="userRole === ''" class="nav-item active" >
+        <a class="nav-link" routerLink="login" >Log In </a>
+      </li>
+      <li  class="nav-item active" >
+        <a class="nav-link" routerLink="register">Register </a>
+
+      </li>
+      <li  class="nav-item active" >
+        <a class="nav-link"  >Log out </a>
+      </li>
+
+
+
+    </ul>
+  </div>
+</nav>
