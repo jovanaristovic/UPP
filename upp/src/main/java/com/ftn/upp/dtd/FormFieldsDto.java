@@ -1,8 +1,10 @@
 package com.ftn.upp.dtd;
 
+import org.camunda.bpm.engine.form.FormField;
+
 import java.util.List;
 
-import org.camunda.bpm.engine.form.FormField;
+//import org.camunda.bpm.engine.form.FormField;
 
 public class FormFieldsDto {
 	String taskId;
@@ -44,6 +46,6 @@ public class FormFieldsDto {
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
 	}
-	
-	
+
+
 }
