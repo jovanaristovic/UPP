@@ -9,7 +9,7 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
     <ul id="user" class="navbar-nav ml-auto" style="margin-right: 5%">
-      <li  *ngIf="userRole === ''" class="nav-item active" >
+      <li  class="nav-item active" >
         <a class="nav-link" routerLink="login" >Log In </a>
       </li>
       <li  class="nav-item active" >
@@ -17,7 +17,7 @@
 
       </li>
       <li  class="nav-item active" >
-        <a class="nav-link"  >Log out </a>
+        <a class="nav-link" (click)="logout()"   >Log out </a>
       </li>
 
 

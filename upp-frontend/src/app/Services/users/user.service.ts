@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
+import { Headers, RequestOptions, ResponseContentType } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Http, Response } from '@angular/http';
 
 import { Observable } from 'rxjs';
-import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +15,16 @@ export class UserService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  // fetchUsers() {
-  //   return this.httpClient.get('http://localhost:8080/user/fetch') as Observable<any>;
-  // }
-  //
-  // registerUser(user, taskId) {
-  //   return this.httpClient.post('http://localhost:8080/api/user/post/'.concat(taskId), user) as Observable<any>;
-  // }
+  fetchUsers() {
+    return this.httpClient.get('api/user/fetch') as Observable<any>;
+  }
+
+  registerUser(user, taskId) {
+    return this.httpClient.post('api/welcome/post/'.concat(taskId), user) as Observable<any>;
+  }
+
+
+
 
     getToken(): string {
         const currentUser = JSON.parse(localStorage.getItem('loggedUser'));
@@ -63,12 +68,12 @@ export class UserService {
     }
 
     login(user): any {
-        return this.httpClient.put('http://localhost:8080/api/auth/login', user, {observe: 'response'}).pipe(map(response => response));
+        return this.httpClient.post('api/auth/login', user, {observe: 'response'}).pipe(map(response => response));
     }
 
 
     getUserByUsername(username): any {
-        return this.httpClient.get('upp-backend/api/users/'.concat(username));
+        return this.httpClient.get('api/users/'.concat(username));
     }
 
     logout() {

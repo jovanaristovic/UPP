@@ -13,7 +13,19 @@ import {CanActivateService} from './Services/security/can-activate.service';
 import {TokenInterceptorService} from './Services/security/token-interceptor';
 import {ToastrModule} from 'ng6-toastr-notifications';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RepositoryComponent} from './Components/repository/repository.component';
+import {Notauthorized} from './Components/guard/notauthorized.guard';
+import {HttpModule} from '@angular/http';
+import {RouterModule} from '@angular/router';
 
+
+const Routes = [
+    {
+        path: 'registrate',
+        component: RegistrationComponent,
+        canActivate: [Notauthorized]
+    }
+];
 
 @NgModule({
   declarations: [
@@ -21,7 +33,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     RegistrationComponent,
     NavbarComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+      RepositoryComponent
   ],
   imports: [
       BrowserModule,
@@ -29,7 +42,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
       HttpClientModule,
       FormsModule,
       ToastrModule.forRoot(),
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      RouterModule.forRoot(Routes),
+      HttpClientModule,
+      HttpModule
+
 
   ],
   providers: [
