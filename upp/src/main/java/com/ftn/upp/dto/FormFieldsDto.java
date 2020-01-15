@@ -1,10 +1,9 @@
-package com.ftn.upp.dtd;
+package com.ftn.upp.dto;
 
 import org.camunda.bpm.engine.form.FormField;
 
 import java.util.List;
 
-//import org.camunda.bpm.engine.form.FormField;
 
 public class FormFieldsDto {
 	String taskId;

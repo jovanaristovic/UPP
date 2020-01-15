@@ -2,6 +2,8 @@ INSERT INTO users (name, last_name, email,password, enabled, username) VALUES ('
 
 
 INSERT INTO authority (id, name) VALUES (1, 'ADMIN');
+INSERT INTO authority (id, name) VALUES (2, 'USER_ROLE');
+
 
 
 INSERT INTO user_authority (user_id, authority_id) VALUES (1, 1);

@@ -1,6 +1,7 @@
 package com.ftn.upp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ftn.upp.dto.FormSubmissionDto;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Table
 @Entity(name = "USERS")
@@ -24,12 +23,6 @@ public class User implements Serializable, UserDetails {
     Long id;
 
     @Column
-    private String email;
-
-    @Column
-    private String password;
-
-    @Column
     private String name;
 
     @Column
@@ -39,7 +32,17 @@ public class User implements Serializable, UserDetails {
     private String city;
 
     @Column
-    private String number;
+    private  String country;
+
+    @Column
+    private String title;
+
+    @Column
+    private String email;
+
+    @Column
+    private String password;
+
 
     @Column
     private String username;
@@ -48,7 +51,8 @@ public class User implements Serializable, UserDetails {
     private boolean enabled;
 
     @Column
-    private Long inChargeOf;
+    private boolean reviewer;
+
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -59,7 +63,8 @@ public class User implements Serializable, UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
 
-
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ScientificField> scientificFields;
 
     public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
@@ -70,6 +75,40 @@ public class User implements Serializable, UserDetails {
     }
     public User(){}
 
+    public User(List<FormSubmissionDto> registrationData){
+
+        List<ScientificField> fields = new ArrayList<>();
+        for(FormSubmissionDto dto : registrationData) {
+
+            if (dto.getFieldId().equals("ime")) {
+                this.name = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("prezime")) {
+                this.lastName = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("grad")) {
+                this.city = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("drzava")) {
+                this.country = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("email")) {
+                this.email = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("korisnickoIme")) {
+                this.username = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("jesteRecenzent")) {
+
+                if (dto.getFieldValue() != null) {
+                    if (dto.getFieldValue().equals("true")) {
+                        this.reviewer = true;
+                    } else {
+                        this.reviewer = false;
+                    }
+                } else {
+                    this.reviewer = false;
+                }
+            }
+        }
+
+        this.enabled = false;
+
+    }
 
 
     public Long getId() {
@@ -114,14 +153,6 @@ public class User implements Serializable, UserDetails {
         this.city = city;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
 
     public String getPassword() {
         return password;
@@ -143,7 +174,37 @@ public class User implements Serializable, UserDetails {
         this.username = username;
     }
 
+    public String getCountry() {
+        return country;
+    }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(boolean reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public List<ScientificField> getScientificFields() {
+        return scientificFields;
+    }
+
+    public void setScientificFields(List<ScientificField> scientificFields) {
+        this.scientificFields = scientificFields;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -163,13 +224,6 @@ public class User implements Serializable, UserDetails {
         return serialVersionUID;
     }
 
-    public Long getInChargeOf() {
-        return inChargeOf;
-    }
-
-    public void setInChargeOf(Long inChargeOf) {
-        this.inChargeOf = inChargeOf;
-    }
 
     @Override
     public boolean isEnabled(){

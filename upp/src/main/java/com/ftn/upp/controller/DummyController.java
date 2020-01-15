@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.ftn.upp.dtd.FormFieldsDto;
-import com.ftn.upp.dtd.FormSubmissionDto;
-import com.ftn.upp.dtd.TaskDto;
+import com.ftn.upp.dto.FormFieldsDto;
+import com.ftn.upp.dto.FormSubmissionDto;
+import com.ftn.upp.dto.TaskDto;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RepositoryService;
@@ -62,7 +62,7 @@ public class DummyController {
 		for(FormField fp : properties) {
 			System.out.println(fp.getId() + fp.getType());
 		}
-
+        System.out.println("id jee " + task.getId());
         return new FormFieldsDto(task.getId(), pi.getId(), properties);
     }
 
@@ -79,6 +79,8 @@ public class DummyController {
         return new ResponseEntity(dtos,  HttpStatus.OK);
     }
 
+
+    // tu udje kada se klikne na submit
 	@PostMapping(path = "/post/{taskId}", produces = "application/json")
     public @ResponseBody ResponseEntity post(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
 		HashMap<String, Object> map = this.mapListToDto(dto);
@@ -129,13 +131,8 @@ public class DummyController {
 		for(FormSubmissionDto temp : list){
 			map.put(temp.getFieldId(), temp.getFieldValue());
 		}
-		
+
 		return map;
 	}
 
-    @PostMapping(path = "/tasks", produces = "application/json")
-    public @ResponseBody ResponseEntity<String> proba() {
-
-        return new ResponseEntity<>("okej", HttpStatus.OK);
-    }
 }

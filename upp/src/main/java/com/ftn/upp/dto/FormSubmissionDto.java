@@ -1,4 +1,4 @@
-package com.ftn.upp.dtd;
+package com.ftn.upp.dto;
 
 import java.io.Serializable;
 
