@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   private formFieldsDto = null;
   private formFields = [];
   // private choosen_category = -1;
-  private processInstance = '';
+  private processInstanceId = '';
   private enumValues = [];
   private tasks = [];
   private nextTask = '';
@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
         // console.log('id taska je: ' + this.taskId);
         this.formFieldsDto = res;
         this.formFields = res.formFields;
-        this.processInstance = res.processInstanceId;
+        this.processInstanceId = res.processInstanceId;
         // this.formFields.forEach( (field) => {
         //
         //   if ( field.type.name === 'enum') {
@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     // console.log(o);
-    const x = this.userService.registerUser(o, this.formFieldsDto.taskId);
+    const x = this.userService.registerUserDammy(o, this.formFieldsDto.taskId);
 
     x.subscribe(
       res => {
@@ -69,7 +69,8 @@ export class RegistrationComponent implements OnInit {
 
         alert('You registered successfully!');
         alert('You registered successfully!');
-        this.getTasks();
+        // this.getTasks();
+        this.router.navigate(['/task',  this.processInstanceId]);
       },
       err => {
         console.log('Error occured');
@@ -77,51 +78,51 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  getTasks() {
-    const x = this.repositoryService.getTasks(this.processInstance);
+  // getTasks() {
+  //   const x = this.repositoryService.getTasks(this.processInstanceId);
+  //
+  //   x.subscribe(
+  //     res => {
+  //       // console.log(res);
+  //       this.tasks = res;
+  //       // console.log(this.tasks[0].taskId);
+  //       this.nextTask = this.tasks[0].taskId;
+  //       // this.claim(this.taskId);
+  //       // this.complete(this.taskId);
+  //       // console.log(this.nextTask);
+  //       this.router.navigate(['/task', this.nextTask]);
+  //     },
+  //     err => {
+  //       console.log('Error occured');
+  //     }
+  //   );
+  //  }
 
-    x.subscribe(
-      res => {
-        // console.log(res);
-        this.tasks = res;
-        // console.log(this.tasks[0].taskId);
-        this.nextTask = this.tasks[0].taskId;
-        // this.claim(this.taskId);
-        // this.complete(this.taskId);
-        // console.log(this.nextTask);
-        this.router.navigate(['/task', this.nextTask]);
-      },
-      err => {
-        console.log('Error occured');
-      }
-    );
-   }
+   // claim(taskId) {
+   //  const x = this.repositoryService.claimTask(taskId);
+   //
+   //  x.subscribe(
+   //    res => {
+   //      console.log(res);
+   //    },
+   //    err => {
+   //      console.log('Error occured');
+   //    }
+   //  );
+   // }
 
-   claim(taskId) {
-    const x = this.repositoryService.claimTask(taskId);
-
-    x.subscribe(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log('Error occured');
-      }
-    );
-   }
-
-   complete(taskId) {
-    const x = this.repositoryService.completeTask(taskId);
-
-    x.subscribe(
-      res => {
-        // console.log(res);
-        this.tasks = res;
-      },
-      err => {
-        console.log('Error occured');
-      }
-    );
-   }
+   // complete(taskId) {
+   //  const x = this.repositoryService.completeTask(taskId);
+   //
+   //  x.subscribe(
+   //    res => {
+   //      // console.log(res);
+   //      this.tasks = res;
+   //    },
+   //    err => {
+   //      console.log('Error occured');
+   //    }
+   //  );
+   // }
 
 }

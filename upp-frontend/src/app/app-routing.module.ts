@@ -12,7 +12,7 @@ const appRoutes: Routes = [
     {path: 'register', component : RegistrationComponent},
     {path: 'login', component: LoginComponent},
     {
-        path: 'task/:id', component : ScientificFieldComponent
+        path: 'task/:procesInstanceId', component : ScientificFieldComponent
     },
 
 ];

@@ -19,10 +19,18 @@ export class UserService {
     return this.httpClient.get('api/user/fetch') as Observable<any>;
   }
 
-  registerUser(user, taskId) {
-    return this.httpClient.post('api/users/register/'.concat(taskId), user) as Observable<any>;
-  }
+  // registerUser(user, taskId) {
+  //   return this.httpClient.post('api/users/register/'.concat(taskId), user) as Observable<any>;
+  // }
 
+    registerUserDammy(user, taskId) {
+        return this.httpClient.post('api/welcome/post/'.concat(taskId), user) as Observable<any>;
+    }
+
+    postScientificField(scientificField, taskId) {
+        return this.httpClient.post('api/welcome/post/scientificField/'.concat(taskId), scientificField) as Observable<any>;
+
+    }
 
 
 

@@ -25,6 +25,10 @@ export class RepositoryService {
     return this.httpClient.get('api/welcome/get') as Observable<any>;
   }
 
+  getNext(procesInstanceId) {
+      return this.httpClient.get('api/welcome/get/next/'.concat(procesInstanceId)) as Observable<any>;
+
+  }
   getTasks(processInstance: string) {
 
     return this.httpClient.get('api/welcome/get/tasks/'.concat(processInstance)) as Observable<any>;
