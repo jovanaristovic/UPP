@@ -20,7 +20,7 @@ export class UserService {
   }
 
   registerUser(user, taskId) {
-    return this.httpClient.post('api/welcome/post/'.concat(taskId), user) as Observable<any>;
+    return this.httpClient.post('api/users/register/'.concat(taskId), user) as Observable<any>;
   }
 
 
@@ -44,6 +44,8 @@ export class UserService {
             for (const role of user.roles) {
                 if (role === 'ADMIN') {
                     userRole = 'ADMIN';
+                } else if (role === 'ROLE_USER') {
+                    userRole = 'ROLE_USER';
                 }
             }
         }

@@ -48,53 +48,6 @@ export class LoginComponent implements OnInit {
           this.wrongUsernameOrPass = true;
           this.toastr.errorToastr('Invalid username or password!', 'Error');
       });
-    //
-    // if (this.user.username === '' || this.user.password === '') {
-    //   this.toastr.errorToastr('You must type all data!', 'Error');
-    //   this.validForService = false;
-    // } else {
-    //   this.validForService = true;
-    // }
-    //
-    //
-    //
-    // if (this.validForService === true) {
-    //   this.userService.getUserByUsername(this.user.username).subscribe(value => {
-    //     if (value !== null) {
-    //       this.isAgent = true;
-    //     }
-    //   }, error2 => {
-    //     this.wrongUsernameOrPass = true;
-    //     this.toastr.errorToastr('You are not agent or You are not accepted as an agent!', 'Error');
-    //   });
-    //
-    //
-    //   if (this.isAgent === true) {
-    //
-    //
-    //     this.wrongUsernameOrPass = false;
-    //     const headers = new Headers();
-    //
-    //     this.userService.login(this.user).subscribe(value => {
-    //       headers.append('Authorization', value.headers.get('Authorization'));
-    //       const userFromToken = this.jwtHelper.decodeToken(headers.get('Authorization'));
-    //       userFromToken.token = headers.get('Authorization');
-    //       // console.log(userFromToken.roles[0].authority);
-    //
-    //       localStorage.setItem('loggedUser', JSON.stringify(userFromToken));
-    //       window.location.reload();
-    //       this.router.navigate(['/home']);
-    //     }, error2 => {
-    //       this.wrongUsernameOrPass = true;
-    //       this.toastr.errorToastr('Invalid username or password!', 'Error');
-    //     });
-    //
-    //     this.router.navigate(['/home']);
-    //   }
-    // }
-
-
-
 
   }
 

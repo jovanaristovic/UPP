@@ -17,6 +17,7 @@ import {RepositoryComponent} from './Components/repository/repository.component'
 import {Notauthorized} from './Components/guard/notauthorized.guard';
 import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
+import { ScientificFieldComponent } from './Components/scientific-field/scientific-field.component';
 
 
 const Routes = [
@@ -34,7 +35,8 @@ const Routes = [
     NavbarComponent,
     HomeComponent,
     LoginComponent,
-      RepositoryComponent
+      RepositoryComponent,
+      ScientificFieldComponent
   ],
   imports: [
       BrowserModule,

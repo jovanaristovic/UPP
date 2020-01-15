@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -18,15 +19,20 @@ export class RegistrationComponent implements OnInit {
   private processInstance = '';
   private enumValues = [];
   private tasks = [];
+  private nextTask = '';
+  taskId = '';
 
-  constructor(private userService: UserService, private repositoryService: RepositoryService) {
+  constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
     const x = repositoryService.startProcess();
 
     x.subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         // this.categories = res;
+        this.taskId = res.taskId;
+        // console.log('dobijeno je ' + res);
+        // console.log('id taska je: ' + this.taskId);
         this.formFieldsDto = res;
         this.formFields = res.formFields;
         this.processInstance = res.processInstanceId;
@@ -49,20 +55,21 @@ export class RegistrationComponent implements OnInit {
   onSubmit(value, form) {
     const o = new Array();
     for (const property in value) {
-      console.log(property);
-      console.log(value[property]);
+      // console.log(property);
+      // console.log(value[property]);
       o.push({fieldId : property, fieldValue : value[property]});
     }
 
-    console.log(o);
+    // console.log(o);
     const x = this.userService.registerUser(o, this.formFieldsDto.taskId);
 
     x.subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
 
         alert('You registered successfully!');
         alert('You registered successfully!');
+        this.getTasks();
       },
       err => {
         console.log('Error occured');
@@ -75,8 +82,14 @@ export class RegistrationComponent implements OnInit {
 
     x.subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         this.tasks = res;
+        // console.log(this.tasks[0].taskId);
+        this.nextTask = this.tasks[0].taskId;
+        // this.claim(this.taskId);
+        // this.complete(this.taskId);
+        // console.log(this.nextTask);
+        this.router.navigate(['/task', this.nextTask]);
       },
       err => {
         console.log('Error occured');
@@ -102,7 +115,7 @@ export class RegistrationComponent implements OnInit {
 
     x.subscribe(
       res => {
-        console.log(res);
+        // console.log(res);
         this.tasks = res;
       },
       err => {

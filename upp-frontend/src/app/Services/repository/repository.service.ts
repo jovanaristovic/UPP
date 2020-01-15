@@ -38,4 +38,8 @@ export class RepositoryService {
     return this.httpClient.post('api/welcome/tasks/complete/'.concat(taskId), null) as Observable<any>;
   }
 
+  getForm(taskId) {
+    return this.httpClient.get('api/scientificField/get/form/'.concat(taskId)) as Observable<any>;
+  }
+
 }
