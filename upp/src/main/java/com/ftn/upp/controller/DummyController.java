@@ -7,6 +7,8 @@ import java.util.List;
 import com.ftn.upp.dto.FormFieldsDto;
 import com.ftn.upp.dto.FormSubmissionDto;
 import com.ftn.upp.dto.TaskDto;
+import com.ftn.upp.model.ScientificField;
+import com.ftn.upp.repository.ScienceFieldRepository;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RepositoryService;
@@ -47,6 +49,10 @@ public class DummyController {
 	FormService formService;
 
 
+	@Autowired
+	private ScienceFieldRepository scienceFieldRepository;
+
+
 	//kliknuto na registraciju ovo gadja, treba da se pokrene proces, pokupi polja forme i vrati na front
 	@GetMapping(path = "/get", produces = "application/json")
     public @ResponseBody
@@ -66,18 +72,35 @@ public class DummyController {
         return new FormFieldsDto(task.getId(), pi.getId(), properties);
     }
 
-	@GetMapping(path = "/get/tasks/{processInstanceId}", produces = "application/json")
-    public @ResponseBody ResponseEntity<List<TaskDto>> get(@PathVariable String processInstanceId) {
+	@GetMapping(path = "/get/next/{procesInstanceId}", produces = "application/json")
+	public @ResponseBody
+	FormFieldsDto getNext(@PathVariable String procesInstanceId) {
 
-		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
-		List<TaskDto> dtos = new ArrayList<TaskDto>();
-		for (Task task : tasks) {
-			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
-			dtos.add(t);
+
+		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).list().get(0);
+
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+		List<FormField> properties = tfd.getFormFields();
+		for(FormField fp : properties) {
+			System.out.println(fp.getId() + fp.getType());
 		}
 
-        return new ResponseEntity(dtos,  HttpStatus.OK);
-    }
+		return new FormFieldsDto(task.getId(), procesInstanceId, properties);
+	}
+
+
+//	@GetMapping(path = "/get/tasks/{processInstanceId}", produces = "application/json")
+//    public @ResponseBody ResponseEntity<List<TaskDto>> get(@PathVariable String processInstanceId) {
+//
+//		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
+//		List<TaskDto> dtos = new ArrayList<TaskDto>();
+//		for (Task task : tasks) {
+//			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+//			dtos.add(t);
+//		}
+//
+//        return new ResponseEntity(dtos,  HttpStatus.OK);
+//    }
 
 
     // tu udje kada se klikne na submit
@@ -103,27 +126,58 @@ public class DummyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	@PostMapping(path = "/tasks/claim/{taskId}", produces = "application/json")
-    public @ResponseBody ResponseEntity claim(@PathVariable String taskId) {
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		String processInstanceId = task.getProcessInstanceId();
-		String user = (String) runtimeService.getVariable(processInstanceId, "username");
-		taskService.claim(taskId, user);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
-	@PostMapping(path = "/tasks/complete/{taskId}", produces = "application/json")
-    public @ResponseBody ResponseEntity<List<TaskDto>> complete(@PathVariable String taskId) {
-		Task taskTemp = taskService.createTaskQuery().taskId(taskId).singleResult();
-		taskService.complete(taskId);
-		List<Task> tasks = taskService.createTaskQuery().processInstanceId(taskTemp.getProcessInstanceId()).list();
-		List<TaskDto> dtos = new ArrayList<TaskDto>();
-		for (Task task : tasks) {
-			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
-			dtos.add(t);
+	@PostMapping(path = "/post/scientificField/{taskId}", produces = "application/json")
+	public @ResponseBody ResponseEntity postForScientificField(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+		HashMap<String, Object> map = this.mapListToDto(dto);
+
+
+//		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+//		String processInstanceId = task.getProcessInstanceId();
+//		runtimeService.setVariable(processInstanceId, "scientificField", dto);
+
+		FormSubmissionDto scienceDTO = null;
+		for (FormSubmissionDto dto1 : dto) {
+			if (dto1.getFieldId().equals("naucnaOblast")) {
+				scienceDTO = dto1;
+			}
 		}
-        return new ResponseEntity<List<TaskDto>>(dtos, HttpStatus.OK);
-    }
+
+		ScientificField scientificFieldExists = this.scienceFieldRepository.findScientificFieldByName(scienceDTO.getFieldValue());
+
+		if(scientificFieldExists == null) {
+			ScientificField scientificFieldNew = new ScientificField();
+			scientificFieldNew.setName(scienceDTO.getFieldValue());
+			this.scienceFieldRepository.save(scientificFieldNew);
+		}
+
+
+		formService.submitTaskForm(taskId, map);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+
+//	@PostMapping(path = "/tasks/claim/{taskId}", produces = "application/json")
+//    public @ResponseBody ResponseEntity claim(@PathVariable String taskId) {
+//		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+//		String processInstanceId = task.getProcessInstanceId();
+//		String user = (String) runtimeService.getVariable(processInstanceId, "username");
+//		taskService.claim(taskId, user);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+//
+//	@PostMapping(path = "/tasks/complete/{taskId}", produces = "application/json")
+//    public @ResponseBody ResponseEntity<List<TaskDto>> complete(@PathVariable String taskId) {
+//		Task taskTemp = taskService.createTaskQuery().taskId(taskId).singleResult();
+//		taskService.complete(taskId);
+//		List<Task> tasks = taskService.createTaskQuery().processInstanceId(taskTemp.getProcessInstanceId()).list();
+//		List<TaskDto> dtos = new ArrayList<TaskDto>();
+//		for (Task task : tasks) {
+//			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
+//			dtos.add(t);
+//		}
+//        return new ResponseEntity<List<TaskDto>>(dtos, HttpStatus.OK);
+//    }
 	
 	private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
 	{

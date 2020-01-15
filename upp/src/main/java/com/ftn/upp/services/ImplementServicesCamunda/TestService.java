@@ -18,20 +18,20 @@ public class TestService implements JavaDelegate{
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		 String var = "Pera";
-	      var = var.toUpperCase();
-	      execution.setVariable("input", var);
-	      List<FormSubmissionDto> registration = (List<FormSubmissionDto>)execution.getVariable("registration");
-	      System.out.println(registration);
-	      User user = identityService.newUser("");
-	      for (FormSubmissionDto formField : registration) {
-			if(formField.getFieldId().equals("username")) {
-				user.setId(formField.getFieldValue());
-			}
-			if(formField.getFieldId().equals("password")) {
-				user.setPassword(formField.getFieldValue());
-			}
-	      }
-	      identityService.saveUser(user);
+//		 String var = "Pera";
+//	      var = var.toUpperCase();
+//	      execution.setVariable("input", var);
+//	      List<FormSubmissionDto> registration = (List<FormSubmissionDto>)execution.getVariable("registration");
+//	      System.out.println(registration);
+//	      User user = identityService.newUser("");
+//	      for (FormSubmissionDto formField : registration) {
+//			if(formField.getFieldId().equals("username")) {
+//				user.setId(formField.getFieldValue());
+//			}
+//			if(formField.getFieldId().equals("password")) {
+//				user.setPassword(formField.getFieldValue());
+//			}
+//	      }
+//	      identityService.saveUser(user);
 	}
 }
