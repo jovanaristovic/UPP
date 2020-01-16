@@ -50,7 +50,6 @@ public class SaveUser implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
 
         List<FormSubmissionDto> registration = (List<FormSubmissionDto>) execution.getVariable("registration");
-        System.out.println(registration);
 
 
         HashMap<String, Object> map = mapListToDto(registration);
@@ -81,17 +80,6 @@ public class SaveUser implements JavaDelegate {
         userRepository.save(newUser);
         }
 
-//        snimanje u camundu
-//        User user = identityService.newUser("1");
-//        for (FormSubmissionDto formField : registration) {
-//            if(formField.getFieldId().equals("username")) {
-//                user.setId(formField.getFieldValue());
-//            }
-//            if(formField.getFieldId().equals("password")) {
-//                user.setPassword(formField.getFieldValue());
-//            }
-//        }
-//        identityService.saveUser(user);
     }
 
     private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)

@@ -10,8 +10,11 @@ import com.ftn.upp.services.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +48,14 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
+    @Autowired
+    private Environment env;
+
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Autowired
     private AuthorityRepository authorityRepository;
@@ -130,5 +141,21 @@ public class UserController {
         return new ResponseEntity<>(tasksDto, HttpStatus.OK);
     }
 
+    @PostMapping(value = "sendMail/{username}")
+    public void sentEmail(@PathVariable String username) {
+        System.out.println("Slanje emaila...");
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo(username);
+        mail.setFrom(env.getProperty("spring.mail.username"));
+        mail.setSubject("Aktivacija naloga");
+
+        String url="http://localhost:4200/activate/" + username;
+        mail.setText("Vas nalog ce biti aktiviran klikom na sledeci link:" + " " + url);
+        javaMailSender.send(mail);
+
+        System.out.println("Email poslat!");
+
+    }
 
 }

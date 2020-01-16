@@ -1,14 +1,16 @@
 package com.ftn.upp.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.ftn.upp.dto.FormFieldsDto;
 import com.ftn.upp.dto.FormSubmissionDto;
-import com.ftn.upp.dto.TaskDto;
 import com.ftn.upp.model.ScientificField;
+import com.ftn.upp.model.User;
 import com.ftn.upp.repository.ScienceFieldRepository;
+import com.ftn.upp.repository.UserRepository;
+import com.ftn.upp.security.validation.RegularExpressions;
+import com.ftn.upp.services.UserService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RepositoryService;
@@ -52,13 +54,17 @@ public class DummyController {
 	@Autowired
 	private ScienceFieldRepository scienceFieldRepository;
 
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	//kliknuto na registraciju ovo gadja, treba da se pokrene proces, pokupi polja forme i vrati na front
 	@GetMapping(path = "/get", produces = "application/json")
     public @ResponseBody
 	FormFieldsDto get() {
-		//provera da li korisnik sa id-jem pera postoji
-		//List<User> users = identityService.createUserQuery().userId("pera").list();
+
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("registracijaKorisnika");
 
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
@@ -68,7 +74,7 @@ public class DummyController {
 		for(FormField fp : properties) {
 			System.out.println(fp.getId() + fp.getType());
 		}
-        System.out.println("id jee " + task.getId());
+
         return new FormFieldsDto(task.getId(), pi.getId(), properties);
     }
 
@@ -89,39 +95,122 @@ public class DummyController {
 	}
 
 
-//	@GetMapping(path = "/get/tasks/{processInstanceId}", produces = "application/json")
-//    public @ResponseBody ResponseEntity<List<TaskDto>> get(@PathVariable String processInstanceId) {
-//
-//		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
-//		List<TaskDto> dtos = new ArrayList<TaskDto>();
-//		for (Task task : tasks) {
-//			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
-//			dtos.add(t);
-//		}
-//
-//        return new ResponseEntity(dtos,  HttpStatus.OK);
-//    }
+	@GetMapping(path = "/get/admin", produces = "application/json")
+	public @ResponseBody
+	FormFieldsDto getAdmin() {
 
 
-    // tu udje kada se klikne na submit
-	@PostMapping(path = "/post/{taskId}", produces = "application/json")
-    public @ResponseBody ResponseEntity post(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+    	Task task = taskService.createTaskQuery().taskCandidateGroup("demo").list().get(0);
+//		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("demo").list().get(0);
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+		List<FormField> properties = tfd.getFormFields();
+		for(FormField fp : properties) {
+			System.out.println(fp.getId() + fp.getType());
+		}
+
+
+		return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+	}
+
+
+	@PostMapping(path = "/post/register/{taskId}", produces = "application/json")
+    public @ResponseBody ResponseEntity postRegister(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        RegularExpressions regularExpressions = new RegularExpressions();
+
+
+        boolean isImeValid = true;
+        boolean isPrezimeValid = true ;
+        boolean isGradValid = true;
+        boolean isDrzavaValid = true;
+        boolean isTitulaValid = true;
+        boolean isEmailValid = true;
+        boolean isKorisnickoImeValid = true;
+        boolean isBrNaucnihValid = true;
+        boolean userExistsUsername = false;
+        boolean userExistsEmail = false;
+        String imeKorisnika = "";
+        String emailKorisnika = "";
+
+
+
+	    for(FormSubmissionDto dto1 : dto ){
+	         if(dto1.getFieldId().equals("ime") ) {
+	              if(dto1.getFieldValue().isEmpty()){
+	                  isImeValid =false;
+                  } else {
+                      isImeValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                  }
+             }else if (dto1.getFieldId().equals("prezime") ) {
+                 if(dto1.getFieldValue().isEmpty()){
+                     isPrezimeValid =false;
+                 } else {
+                     isPrezimeValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                 }
+             } else if (dto1.getFieldId().equals( "grad")) {
+                 if(dto1.getFieldValue().isEmpty()){
+                     isGradValid =false;
+                 } else {
+                     isGradValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                 }
+             }else if (dto1.getFieldId().equals("drzava")) {
+                 if(dto1.getFieldValue().isEmpty()){
+                     isDrzavaValid =false;
+                 } else {
+                     isDrzavaValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                 }
+            }else if (dto1.getFieldId().equals("titula")) {
+	             if(!dto1.getFieldValue().isEmpty()){
+	                isTitulaValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                 }
+            }else if (dto1.getFieldId().equals("email")) {
+                 emailKorisnika = dto1.getFieldValue();
+                 if(dto1.getFieldValue().isEmpty()){
+                     isEmailValid =false;
+                 } else {
+                     isEmailValid = regularExpressions.isEmailValid(dto1.getFieldValue());
+                 }
+             }else if (dto1.getFieldId().equals("korisnickoIme")) {
+                 imeKorisnika = dto1.getFieldValue();
+                 if(dto1.getFieldValue().isEmpty()){
+                     isKorisnickoImeValid =false;
+                 } else {
+                     isKorisnickoImeValid = regularExpressions.isUsernameValid(dto1.getFieldValue());
+                 }
+             }
+//             else if (dto1.getFieldId().equals("sifra")) { }
+             else if (dto1.getFieldId().equals("naucneOblasti")) {
+                 if(dto1.getFieldValue().isEmpty()){
+                     isBrNaucnihValid =false;
+                 } else {
+                     isBrNaucnihValid = regularExpressions.isNumberValid(dto1.getFieldValue());
+                 }
+            }
+        }
+
+
+        User userSaUsername = userService.findUserByUsername(imeKorisnika);
+	    User saEmailom = userService.findUserByEmail(emailKorisnika);
+        if(saEmailom != null){
+            userExistsEmail =true;
+        }
+	    if(userSaUsername != null ){
+            userExistsUsername = true;
+        }
+
+        if(!isImeValid || !isPrezimeValid || !isGradValid || !isDrzavaValid || userExistsUsername || userExistsEmail ||
+                !isTitulaValid|| !isEmailValid || !isKorisnickoImeValid || !isBrNaucnihValid ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+
+
 		HashMap<String, Object> map = this.mapListToDto(dto);
-
-		    // list all running/unsuspended instances of the process
-//		    ProcessInstance processInstance =
-//		        runtimeService.createProcessInstanceQuery()
-//		            .processDefinitionKey("Process_1")
-//		            .active() // we only want the unsuspended process instances
-//		            .list().get(0);
-
-//			Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list().get(0);
-
-
 
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 		runtimeService.setVariable(processInstanceId, "registration", dto);
+		runtimeService.setVariable(processInstanceId, "procesInstanceId", processInstanceId);
 		formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -129,13 +218,40 @@ public class DummyController {
 
 	@PostMapping(path = "/post/scientificField/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity postForScientificField(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
-		HashMap<String, Object> map = this.mapListToDto(dto);
+
+        RegularExpressions regularExpressions = new RegularExpressions();
+        boolean isNaucnaValid = true;
+
+        for(FormSubmissionDto dto1 : dto ) {
+            if (dto1.getFieldId().equals("naucnaOblast")) {
+                if(dto1.getFieldValue().isEmpty()){
+                    isNaucnaValid =false;
+                } else {
+                    isNaucnaValid = regularExpressions.isNameValid(dto1.getFieldValue());
+                }
+            }
+        }
+
+        if(!isNaucnaValid){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
 
 
-//		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-//		String processInstanceId = task.getProcessInstanceId();
-//		runtimeService.setVariable(processInstanceId, "scientificField", dto);
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+		List<FormSubmissionDto> registrationDTO = (List<FormSubmissionDto>) runtimeService.getVariable(processInstanceId,"registration");
 
+		FormSubmissionDto usernameDTO = null;
+		for (FormSubmissionDto dto1 : registrationDTO) {
+			if (dto1.getFieldId().equals("korisnickoIme")) {
+				usernameDTO = dto1;
+			}
+		}
+
+		User user = this.userService.findUserByUsername(usernameDTO.getFieldValue());
 		FormSubmissionDto scienceDTO = null;
 		for (FormSubmissionDto dto1 : dto) {
 			if (dto1.getFieldId().equals("naucnaOblast")) {
@@ -149,36 +265,30 @@ public class DummyController {
 			ScientificField scientificFieldNew = new ScientificField();
 			scientificFieldNew.setName(scienceDTO.getFieldValue());
 			this.scienceFieldRepository.save(scientificFieldNew);
+			user.getScientificFields().add(scientificFieldNew);
+			this.userRepository.save(user);
 		}
-
 
 		formService.submitTaskForm(taskId, map);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 
-//	@PostMapping(path = "/tasks/claim/{taskId}", produces = "application/json")
-//    public @ResponseBody ResponseEntity claim(@PathVariable String taskId) {
-//		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-//		String processInstanceId = task.getProcessInstanceId();
-//		String user = (String) runtimeService.getVariable(processInstanceId, "username");
-//		taskService.claim(taskId, user);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//	@PostMapping(path = "/tasks/complete/{taskId}", produces = "application/json")
-//    public @ResponseBody ResponseEntity<List<TaskDto>> complete(@PathVariable String taskId) {
-//		Task taskTemp = taskService.createTaskQuery().taskId(taskId).singleResult();
-//		taskService.complete(taskId);
-//		List<Task> tasks = taskService.createTaskQuery().processInstanceId(taskTemp.getProcessInstanceId()).list();
-//		List<TaskDto> dtos = new ArrayList<TaskDto>();
-//		for (Task task : tasks) {
-//			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee());
-//			dtos.add(t);
-//		}
-//        return new ResponseEntity<List<TaskDto>>(dtos, HttpStatus.OK);
-//    }
-	
+    @PostMapping(path = "/post/activateUser/{taskId}", produces = "application/json")
+    public @ResponseBody ResponseEntity postActivateUser(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+	@PostMapping(path = "/post/acceptReviewer/{taskId}", produces = "application/json")
+	public @ResponseBody ResponseEntity postAcceptReviewer(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+		HashMap<String, Object> map = this.mapListToDto(dto);
+		formService.submitTaskForm(taskId, map);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
 	{
 		HashMap<String, Object> map = new HashMap<String, Object>();

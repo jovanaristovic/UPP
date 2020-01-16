@@ -10,6 +10,6 @@ public interface UserService {
 
     User findUserByUsername(String username);
     void sendMailForActivation(User user);
-    User activateAccount(ActivateAccountDto activateAccountDto);
+    User findUserByEmail(String email);
 
 }

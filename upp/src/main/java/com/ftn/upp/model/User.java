@@ -88,6 +88,10 @@ public class User implements Serializable, UserDetails {
                 this.city = dto.getFieldValue();
             } else if (dto.getFieldId().equals("drzava")) {
                 this.country = dto.getFieldValue();
+            } else if (dto.getFieldId().equals("titula")) {
+                if(!dto.getFieldValue().isEmpty()) {
+                    this.title = dto.getFieldValue();
+                }
             } else if (dto.getFieldId().equals("email")) {
                 this.email = dto.getFieldValue();
             } else if (dto.getFieldId().equals("korisnickoIme")) {
