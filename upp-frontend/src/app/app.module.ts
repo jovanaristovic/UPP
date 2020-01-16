@@ -18,6 +18,8 @@ import {Notauthorized} from './Components/guard/notauthorized.guard';
 import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import { ScientificFieldComponent } from './Components/scientific-field/scientific-field.component';
+import { ActivateUserComponent } from './Components/activate-user/activate-user.component';
+import { AdminComponent } from './Components/admin/admin.component';
 
 
 const Routes = [
@@ -36,7 +38,9 @@ const Routes = [
     HomeComponent,
     LoginComponent,
       RepositoryComponent,
-      ScientificFieldComponent
+      ScientificFieldComponent,
+      ActivateUserComponent,
+      AdminComponent
   ],
   imports: [
       BrowserModule,

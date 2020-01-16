@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
@@ -11,16 +11,14 @@ import {Router} from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  // private repeated_password = '';
-  private categories = [];
-  private formFieldsDto = null;
-  private formFields = [];
-  // private choosen_category = -1;
-  private processInstanceId = '';
-  private enumValues = [];
-  private tasks = [];
-  private nextTask = '';
-  taskId = '';
+    private formFieldsDto = null;
+    private formFields = [];
+    private processInstanceId = '';
+    private enumValues = [];
+    private tasks = [];
+    private nextTask = '';
+    taskId = '';
+
 
   constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
@@ -36,18 +34,19 @@ export class RegistrationComponent implements OnInit {
         this.formFieldsDto = res;
         this.formFields = res.formFields;
         this.processInstanceId = res.processInstanceId;
-        // this.formFields.forEach( (field) => {
-        //
-        //   if ( field.type.name === 'enum') {
-        //     this.enumValues = Object.keys(field.type.values);
-        //   }
-        // });
+
       },
       err => {
         console.log('Error occured');
       }
     );
    }
+
+    getId() {
+    return this.processInstanceId;
+
+   }
+
 
   ngOnInit() {
   }
@@ -68,61 +67,13 @@ export class RegistrationComponent implements OnInit {
         // console.log(res);
 
         alert('You registered successfully!');
-        alert('You registered successfully!');
-        // this.getTasks();
         this.router.navigate(['/task',  this.processInstanceId]);
       },
       err => {
         console.log('Error occured');
+        alert('Value of field is empty or not valid!');
+
       }
     );
   }
-
-  // getTasks() {
-  //   const x = this.repositoryService.getTasks(this.processInstanceId);
-  //
-  //   x.subscribe(
-  //     res => {
-  //       // console.log(res);
-  //       this.tasks = res;
-  //       // console.log(this.tasks[0].taskId);
-  //       this.nextTask = this.tasks[0].taskId;
-  //       // this.claim(this.taskId);
-  //       // this.complete(this.taskId);
-  //       // console.log(this.nextTask);
-  //       this.router.navigate(['/task', this.nextTask]);
-  //     },
-  //     err => {
-  //       console.log('Error occured');
-  //     }
-  //   );
-  //  }
-
-   // claim(taskId) {
-   //  const x = this.repositoryService.claimTask(taskId);
-   //
-   //  x.subscribe(
-   //    res => {
-   //      console.log(res);
-   //    },
-   //    err => {
-   //      console.log('Error occured');
-   //    }
-   //  );
-   // }
-
-   // complete(taskId) {
-   //  const x = this.repositoryService.completeTask(taskId);
-   //
-   //  x.subscribe(
-   //    res => {
-   //      // console.log(res);
-   //      this.tasks = res;
-   //    },
-   //    err => {
-   //      console.log('Error occured');
-   //    }
-   //  );
-   // }
-
 }

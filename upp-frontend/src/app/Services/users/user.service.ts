@@ -24,7 +24,7 @@ export class UserService {
   // }
 
     registerUserDammy(user, taskId) {
-        return this.httpClient.post('api/welcome/post/'.concat(taskId), user) as Observable<any>;
+        return this.httpClient.post('api/welcome/post/register/'.concat(taskId), user) as Observable<any>;
     }
 
     postScientificField(scientificField, taskId) {
@@ -32,6 +32,15 @@ export class UserService {
 
     }
 
+    postActivateUser(activateUser, taskId) {
+        return this.httpClient.post('api/welcome/post/activateUser/'.concat(taskId), activateUser) as Observable<any>;
+
+    }
+
+    postAcceptReviewer(acceptReviewer, taskId){
+        return this.httpClient.post('api/welcome/post/acceptReviewer/'.concat(taskId), acceptReviewer) as Observable<any>;
+
+    }
 
 
     getToken(): string {

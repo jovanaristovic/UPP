@@ -5,7 +5,7 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
 
   <div *ngFor="let field of formFields" >
-      <label for={{field.id}}>{{field.label}}</label>
+      <label for={{field.id}}>{{field.label}} </label>
       <div class="form-group">
       <input type="text" name={{field.id}} ngModel  *ngIf="field.type.name=='string'" >
       <input type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">
@@ -17,7 +17,11 @@
       </select>
       </div>
   </div>
-  
+    <div>
+        <label>Sva polja osim polja titule su obavezna! </label>
+
+    </div>
+
   <input type="submit" class="btn btn-primary pull-right">
 </form>
 
