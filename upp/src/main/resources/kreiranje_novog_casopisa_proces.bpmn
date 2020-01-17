@@ -84,19 +84,11 @@
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">${brojNaucnih}</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
-    <bpmn:userTask id="UT_provera_podataka" name="Provera podataka o casopisu" camunda:candidateGroups="demo">
+    <bpmn:userTask id="UT_provera_podataka" name="Provera podataka o casopisu" camunda:candidateGroups="admin">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naslov_pregled" label="Naslov" type="string" defaultValue="${naslov}">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
-          </camunda:formField>
-          <camunda:formField id="naucnaOblast_pregled" label="Naucna oblast" type="string" defaultValue="${naucnaOblast}">
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
-          </camunda:formField>
+          <camunda:formField id="naslov_pregled" label="Naslov" type="string" defaultValue="${naslov}" />
+          <camunda:formField id="naucnaOblast_pregled" label="Naucna oblast" type="string" defaultValue="${naucnaOblast}" />
           <camunda:formField id="nacinPlacanja" label="Nacin placanja" type="string" defaultValue="${nacinPlacanja}" />
           <camunda:formField id="aktivan" label="Aktivan" type="boolean" />
         </camunda:formData>

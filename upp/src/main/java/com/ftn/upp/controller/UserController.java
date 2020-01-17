@@ -153,7 +153,7 @@ public class UserController {
 
         String url="http://localhost:4200/activate/" + username;
         mail.setText("Vas nalog ce biti aktiviran klikom na sledeci link:" + " " + url);
-        javaMailSender.send(mail);
+//        javaMailSender.send(mail);
 
         System.out.println("Email poslat!");
 

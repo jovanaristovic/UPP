@@ -118,11 +118,27 @@ public class DummyController {
 
 	@GetMapping(path = "/get/admin", produces = "application/json")
 	public @ResponseBody
-	FormFieldsDto getAdmin() {
+	FormFieldsDto getDemo() {
 
 
     	Task task = taskService.createTaskQuery().taskCandidateGroup("demo").list().get(0);
 //		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("demo").list().get(0);
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+		List<FormField> properties = tfd.getFormFields();
+		for(FormField fp : properties) {
+			System.out.println(fp.getId() + fp.getType());
+		}
+
+
+		return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+	}
+
+	@GetMapping(path = "/get/admin/journal", produces = "application/json")
+	public @ResponseBody
+	FormFieldsDto getAdmin() {
+
+
+		Task task = taskService.createTaskQuery().taskCandidateGroup("admin").list().get(0);
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
 		for(FormField fp : properties) {
@@ -303,6 +319,13 @@ public class DummyController {
 
 	@PostMapping(path = "/post/acceptReviewer/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity postAcceptReviewer(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+		HashMap<String, Object> map = this.mapListToDto(dto);
+		formService.submitTaskForm(taskId, map);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping(path = "/post/journalReview/{taskId}", produces = "application/json")
+	public @ResponseBody ResponseEntity postJournalReview(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
 		HashMap<String, Object> map = this.mapListToDto(dto);
 		formService.submitTaskForm(taskId, map);
 		return new ResponseEntity<>(HttpStatus.OK);
