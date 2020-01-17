@@ -18,7 +18,6 @@ export class AdminComponent implements OnInit {
     private tasks = [];
     private nextTask = '';
     taskId = '';
-    // @Input() processInstanceId: string;
 
     constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 

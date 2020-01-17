@@ -38,6 +38,10 @@ export class RepositoryService {
       return this.httpClient.get('api/welcome/get/admin') as Observable<any>;
 
   }
+    getTaskForAdminJournal() {
+        return this.httpClient.get('api/welcome/get/admin/journal') as Observable<any>;
+
+    }
   getTasks(processInstance: string) {
 
     return this.httpClient.get('api/welcome/get/tasks/'.concat(processInstance)) as Observable<any>;

@@ -9,7 +9,7 @@ import {ActivateUserComponent} from './Components/activate-user/activate-user.co
 import {AdminComponent} from './Components/admin/admin.component';
 import {JournalComponent} from './Components/journal/journal.component';
 import {JournalNextTasksComponent} from './Components/journal-next-tasks/journal-next-tasks.component';
-import {JournalsAdminComponent} from './Components/journals-admin/journals-admin.component';
+import {AdminJournalsComponent} from './Components/admin-journals/admin-journals.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     {path: 'admin', component: AdminComponent},
     {path: 'createJournal', component: JournalComponent},
     {path: 'nextTaskJournal/:procesInstanceId', component: JournalNextTasksComponent},
-    {path: 'journalsAdmin', component: JournalsAdminComponent }
+    {path: 'journalsAdmin', component: AdminJournalsComponent }
 
 ];
 

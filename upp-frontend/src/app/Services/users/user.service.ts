@@ -23,7 +23,7 @@ export class UserService {
   //   return this.httpClient.post('api/users/register/'.concat(taskId), user) as Observable<any>;
   // }
 
-    registerUserDammy(user, taskId) {
+    registerUserDummy(user, taskId) {
         return this.httpClient.post('api/welcome/post/register/'.concat(taskId), user) as Observable<any>;
     }
 
@@ -47,6 +47,11 @@ export class UserService {
         return this.httpClient.post('api/welcome/post/acceptReviewer/'.concat(taskId), acceptReviewer) as Observable<any>;
 
     }
+    postJournalReview(review, taskId){
+        return this.httpClient.post('api/welcome/post/journalReview/'.concat(taskId), review) as Observable<any>;
+
+    }
+
 
     postCreateJournal(journal, taskId, redactor) {
         return this.httpClient.post('api/welcome/post/createJournal/'.concat(taskId).concat('/').concat(redactor), journal) as Observable<any>;

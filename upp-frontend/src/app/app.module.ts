@@ -23,7 +23,6 @@ import { AdminComponent } from './Components/admin/admin.component';
 import { JournalComponent } from './Components/journal/journal.component';
 import { JournalNextTasksComponent } from './Components/journal-next-tasks/journal-next-tasks.component';
 import { AdminJournalsComponent } from './Components/admin-journals/admin-journals.component';
-import { JournalsAdminComponent } from './Components/journals-admin/journals-admin.component';
 
 
 const Routes = [
@@ -47,8 +46,7 @@ const Routes = [
       AdminComponent,
       JournalComponent,
       JournalNextTasksComponent,
-      AdminJournalsComponent,
-      JournalsAdminComponent
+      AdminJournalsComponent
   ],
   imports: [
       BrowserModule,

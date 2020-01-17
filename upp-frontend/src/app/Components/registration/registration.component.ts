@@ -60,7 +60,7 @@ export class RegistrationComponent implements OnInit {
     }
 
     // console.log(o);
-    const x = this.userService.registerUserDammy(o, this.formFieldsDto.taskId);
+    const x = this.userService.registerUserDummy(o, this.formFieldsDto.taskId);
 
     x.subscribe(
       res => {
