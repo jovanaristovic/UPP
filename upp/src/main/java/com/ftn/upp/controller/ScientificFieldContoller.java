@@ -30,6 +30,7 @@ public class ScientificFieldContoller {
 
     @RequestMapping(value = "/get/form/{taskId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<FormFieldsDto> getFormFields(@PathVariable("taskId") String taskId){
+
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
         TaskFormData tfd = formService.getTaskFormData(task.getId());

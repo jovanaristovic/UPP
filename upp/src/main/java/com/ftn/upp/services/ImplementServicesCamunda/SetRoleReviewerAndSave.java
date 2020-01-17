@@ -35,7 +35,6 @@ public class SetRoleReviewerAndSave implements JavaDelegate {
         }
 
         User user =  userRepository.findUserByUsername(usernameDTO.getFieldValue());
-        user.getAuthorities().clear();
         Authority authority = authorityRepository.findAuthorityByName("REVIEWER");
         List<Authority> authorities = Arrays.asList(authority);
         user.setAuthorities(authorities);

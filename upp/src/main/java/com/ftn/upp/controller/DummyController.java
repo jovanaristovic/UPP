@@ -103,7 +103,6 @@ public class DummyController {
 	public @ResponseBody
 	FormFieldsDto getNext(@PathVariable String procesInstanceId) {
 
-
 		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).list().get(0);
 
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
@@ -114,6 +113,25 @@ public class DummyController {
 
 		return new FormFieldsDto(task.getId(), procesInstanceId, properties);
 	}
+
+    @GetMapping(path = "/get/formForCorrection/{procesInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getFormaZaIspravljanje(@PathVariable String procesInstanceId ) {
+
+		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskName("Ispravka podataka").active().singleResult();
+//		Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).list().get(0);
+        if(task == null){
+        	return null;
+		}
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+       return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+    }
+
 
 
 	@GetMapping(path = "/get/admin", produces = "application/json")
@@ -324,9 +342,26 @@ public class DummyController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+//	pregled podataka o casopisu od strane admina
 	@PostMapping(path = "/post/journalReview/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity postJournalReview(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
 		HashMap<String, Object> map = this.mapListToDto(dto);
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        runtimeService.setVariable(processInstanceId, "ispravljeniPodaciOCasopisuAdmin", dto );
+		formService.submitTaskForm(taskId, map);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	//ispravljanje podataka o casopisu od strane urednika
+	@PostMapping(path = "/post/correctedJournal/{taskId}", produces = "application/json")
+	public @ResponseBody ResponseEntity postCorrectedJournal(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+		HashMap<String, Object> map = this.mapListToDto(dto);
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = task.getProcessInstanceId();
+		runtimeService.setVariable(processInstanceId, "urednikIspravioPodatkeOCasopisu", dto );
 		formService.submitTaskForm(taskId, map);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
