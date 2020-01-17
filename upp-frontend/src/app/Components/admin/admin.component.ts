@@ -22,8 +22,6 @@ export class AdminComponent implements OnInit {
     constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
 
-
-        // console.log(this.processInstanceId + ' prenetoooooo');
         const x = repositoryService.getTaskForAdmin();
 
         x.subscribe(

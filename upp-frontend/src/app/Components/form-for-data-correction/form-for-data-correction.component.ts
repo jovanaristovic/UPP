@@ -4,11 +4,11 @@ import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-admin-journals',
-  templateUrl: './admin-journals.component.html',
-  styleUrls: ['./admin-journals.component.css']
+  selector: 'app-form-for-data-correction',
+  templateUrl: './form-for-data-correction.component.html',
+  styleUrls: ['./form-for-data-correction.component.css']
 })
-export class AdminJournalsComponent implements OnInit {
+export class FormForDataCorrectionComponent implements OnInit {
 
     private formFieldsDto = null;
     private formFields = [];
@@ -21,7 +21,10 @@ export class AdminJournalsComponent implements OnInit {
 
   constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
-     const x = repositoryService.getTaskForAdminJournal();
+      this.href = this.router.url;
+      this.processInstanceId = this.href.split('/')[2];
+      const x = repositoryService.getTaskForCorrection(this.processInstanceId);
+      console.log(this.processInstanceId);
 
      x.subscribe(
           res => {
@@ -29,7 +32,8 @@ export class AdminJournalsComponent implements OnInit {
               this.taskId = res.taskId;
               this.formFieldsDto = res;
               this.formFields = res.formFields;
-              this.processInstanceId = res.processInstanceId;
+
+              // this.processInstanceId = res.processInstanceId;
 
           },
           err => {
@@ -41,7 +45,6 @@ export class AdminJournalsComponent implements OnInit {
   ngOnInit() {
   }
 
-
     onSubmit(value, form) {
         const o = new Array();
         for (const property in value) {
@@ -51,7 +54,7 @@ export class AdminJournalsComponent implements OnInit {
             o.push({fieldId: property, fieldValue: value[property]});
         }
 
-        const x = this.userService.postJournalReview(o, this.formFieldsDto.taskId);
+        const x = this.userService.postCorrectedJournal(o, this.formFieldsDto.taskId);
 
         x.subscribe(
             res => {
@@ -61,8 +64,7 @@ export class AdminJournalsComponent implements OnInit {
                 // this.getTasks();
                 // this.router.navigate(['/task',  this.processInstanceId]);
                 // this.getAnotherTask();
-                // this.router.navigate(['/corectData', this.processInstanceId]);
-                // this.getAnotherTask();
+                this.router.navigate(['/home']);
 
             },
             err => {
@@ -71,5 +73,32 @@ export class AdminJournalsComponent implements OnInit {
         );
     }
 
+
+    getAnotherTask() {
+
+        this.href = this.router.url;
+
+        this.processInstanceId = this.href.split('/')[2];
+        const x = this.repositoryService.getNext(this.processInstanceId);
+
+        x.subscribe(
+            res => {
+                this.taskId = res.taskId;
+                this.formFieldsDto = res;
+                this.formFields = res.formFields;
+                this.processInstanceId = res.processInstanceId;
+                this.formFields.forEach( (field) => {
+
+                    if (field.type.name === 'enum') {
+                        this.enumValues = Object.keys(field.type.values);
+                    }
+                });
+
+            },
+            err => {
+                console.log('Error occured');
+            }
+        );
+    }
 
 }

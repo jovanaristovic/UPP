@@ -9,14 +9,18 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
     <ul id="user" class="navbar-nav ml-auto" style="margin-right: 5%">
+
       <li  class="nav-item active" >
-        <a class="nav-link" routerLink="createJournal" >Kreiraj casopis </a>
+        <a class="nav-link" routerLink="corectData" >UREDNIK Ispravljanje podataka o casopisu</a>
       </li>
       <li  class="nav-item active" >
-        <a class="nav-link" routerLink="admin" >Potvrda recenzenata </a>
+        <a class="nav-link" routerLink="createJournal" >UREDNIK Kreiraj casopis </a>
       </li>
       <li  class="nav-item active" >
-        <a class="nav-link" routerLink="journalsAdmin" >Dodati casopisi </a>
+        <a class="nav-link" routerLink="admin" >ADMIN Potvrda recenzenata </a>
+      </li>
+      <li  class="nav-item active" >
+        <a class="nav-link" routerLink="journalsAdmin" >ADMIN Dodati casopisi </a>
       </li>
       <li *ngIf="userRole === ''" class="nav-item active" >
         <a class="nav-link" routerLink="login" >Prijava na sistem</a>

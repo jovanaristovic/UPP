@@ -42,21 +42,10 @@ export class RepositoryService {
         return this.httpClient.get('api/welcome/get/admin/journal') as Observable<any>;
 
     }
-  getTasks(processInstance: string) {
 
-    return this.httpClient.get('api/welcome/get/tasks/'.concat(processInstance)) as Observable<any>;
-  }
+    getTaskForCorrection(processInstanceId) {
+        return this.httpClient.get('api/welcome/get/formForCorrection/'.concat(processInstanceId)) as Observable<any>;
 
-  claimTask(taskId) {
-    return this.httpClient.post('api/welcome/tasks/claim/'.concat(taskId), null) as Observable<any>;
-  }
-
-  completeTask(taskId) {
-    return this.httpClient.post('api/welcome/tasks/complete/'.concat(taskId), null) as Observable<any>;
-  }
-
-  getForm(taskId) {
-    return this.httpClient.get('api/scientificField/get/form/'.concat(taskId)) as Observable<any>;
-  }
+    }
 
 }

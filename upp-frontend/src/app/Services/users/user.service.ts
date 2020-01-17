@@ -52,6 +52,11 @@ export class UserService {
 
     }
 
+    postCorrectedJournal(journal, taskId){
+        return this.httpClient.post('api/welcome/post/correctedJournal/'.concat(taskId), journal) as Observable<any>;
+
+    }
+
 
     postCreateJournal(journal, taskId, redactor) {
         return this.httpClient.post('api/welcome/post/createJournal/'.concat(taskId).concat('/').concat(redactor), journal) as Observable<any>;
