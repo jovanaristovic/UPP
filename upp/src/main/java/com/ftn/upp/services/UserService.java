@@ -1,6 +1,5 @@
 package com.ftn.upp.services;
 
-import com.ftn.upp.dto.ActivateAccountDto;
 import com.ftn.upp.model.User;
 import org.springframework.stereotype.Service;
 

@@ -146,6 +146,7 @@ public class UserController {
         System.out.println("Slanje emaila...");
 
         SimpleMailMessage mail = new SimpleMailMessage();
+        username += ".com";
         mail.setTo(username);
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("Aktivacija naloga");

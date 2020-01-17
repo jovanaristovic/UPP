@@ -25,6 +25,20 @@ public class RegularExpressions {
     }
 
 
+    public boolean isTitleValid(String emailAddress) {
+
+        final String mailRegex = "[A-Za-z\\s?]+";
+        Pattern pattern = Pattern.compile(mailRegex);
+        Matcher matcher = pattern.matcher(emailAddress);
+
+        if (matcher.find()) {
+            System.out.println("ISPRAVAN NASLOV");
+            return true;
+        }
+        System.out.println("NEISPRAVAN NASLOV");
+        return false;
+    }
+
 
     public boolean isUsernameValid(String username) {
 
