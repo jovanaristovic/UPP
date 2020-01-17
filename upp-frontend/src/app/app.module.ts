@@ -20,6 +20,10 @@ import {RouterModule} from '@angular/router';
 import { ScientificFieldComponent } from './Components/scientific-field/scientific-field.component';
 import { ActivateUserComponent } from './Components/activate-user/activate-user.component';
 import { AdminComponent } from './Components/admin/admin.component';
+import { JournalComponent } from './Components/journal/journal.component';
+import { JournalNextTasksComponent } from './Components/journal-next-tasks/journal-next-tasks.component';
+import { AdminJournalsComponent } from './Components/admin-journals/admin-journals.component';
+import { JournalsAdminComponent } from './Components/journals-admin/journals-admin.component';
 
 
 const Routes = [
@@ -40,7 +44,11 @@ const Routes = [
       RepositoryComponent,
       ScientificFieldComponent,
       ActivateUserComponent,
-      AdminComponent
+      AdminComponent,
+      JournalComponent,
+      JournalNextTasksComponent,
+      AdminJournalsComponent,
+      JournalsAdminComponent
   ],
   imports: [
       BrowserModule,

@@ -31,6 +31,12 @@ export class UserService {
         return this.httpClient.post('api/welcome/post/scientificField/'.concat(taskId), scientificField) as Observable<any>;
 
     }
+    postScientificFieldJournal(scientificField, taskId) {
+        console.log('udje u naucno polje');
+
+        return this.httpClient.post('api/welcome/post/scientificField/journal/'.concat(taskId), scientificField) as Observable<any>;
+
+    }
 
     postActivateUser(activateUser, taskId) {
         return this.httpClient.post('api/welcome/post/activateUser/'.concat(taskId), activateUser) as Observable<any>;
@@ -39,6 +45,22 @@ export class UserService {
 
     postAcceptReviewer(acceptReviewer, taskId){
         return this.httpClient.post('api/welcome/post/acceptReviewer/'.concat(taskId), acceptReviewer) as Observable<any>;
+
+    }
+
+    postCreateJournal(journal, taskId, redactor) {
+        return this.httpClient.post('api/welcome/post/createJournal/'.concat(taskId).concat('/').concat(redactor), journal) as Observable<any>;
+
+    }
+
+    postAddRedactor(redactor, taskId) {
+        console.log('udje u redaktora');
+        return this.httpClient.post('api/welcome/post/redactor/'.concat(taskId), redactor) as Observable<any>;
+
+    }
+    postAddReviewer(reviewer, taskId) {
+        console.log('udje u recenzenta');
+        return this.httpClient.post('api/welcome/post/reviewer/'.concat(taskId), reviewer) as Observable<any>;
 
     }
 
@@ -63,6 +85,8 @@ export class UserService {
                     userRole = 'ADMIN';
                 } else if (role === 'ROLE_USER') {
                     userRole = 'ROLE_USER';
+                } else if (role === 'REDACTOR') {
+                    userRole = 'REDACTOR';
                 }
             }
         }

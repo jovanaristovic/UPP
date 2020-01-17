@@ -22,7 +22,7 @@ export class ScientificFieldComponent implements OnInit {
    processInstanceId = '';
    potvrdaReg = false;
 
-  constructor(private repoService: RepositoryService, private router: Router,  private userService: UserService, private repositoryService: RepositoryService ) {
+  constructor(private repoService: RepositoryService, private router: Router,  private userService: UserService) {
       this.getAnotherTask();
   }
 
