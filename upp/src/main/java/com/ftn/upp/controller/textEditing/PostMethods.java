@@ -1,8 +1,8 @@
 package com.ftn.upp.controller.textEditing;
 
 import com.ftn.upp.dto.FormSubmissionDto;
+import com.ftn.upp.dto.FormSubmissionWithFileDto;
 import com.ftn.upp.model.Authority;
-import com.ftn.upp.model.Journal;
 import com.ftn.upp.model.User;
 import com.ftn.upp.model.Work;
 import com.ftn.upp.repository.AuthorityRepository;
@@ -19,8 +19,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +73,10 @@ public class PostMethods {
     @Autowired
     private AuthorityRepository authorityRepository;
 
+    @Autowired
+    ServletContext context;
+
+
 
     @PostMapping(path = "/choose/journal/{taskId}")
     public @ResponseBody
@@ -89,22 +99,6 @@ public class PostMethods {
     ResponseEntity payMembership(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
         HashMap<String, Object> map = this.mapListToDto(dto);
 
-        formService.submitTaskForm(taskId, map);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-
-    @PostMapping(path = "/new/work/{taskId}")
-    public @ResponseBody
-    ResponseEntity newWork(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
-        HashMap<String, Object> map = this.mapListToDto(dto);
-
-        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-        String processInstanceId = task.getProcessInstanceId();
-
-
-        runtimeService.setVariable(processInstanceId, "newWork", dto);
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -166,6 +160,33 @@ public class PostMethods {
 
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PostMapping(path = "/upload/file/{taskId}", produces = "application/json")
+    public ResponseEntity postUploadFile(@RequestBody FormSubmissionWithFileDto dto, @PathVariable String taskId)  throws IOException {
+
+        HashMap<String, Object> map = this.mapListToDto(dto.getForm());
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+
+        runtimeService.setVariable(processInstanceId, "newWork", dto.getForm());
+        runtimeService.setVariable(processInstanceId, "pdfName", dto.getFileName());
+
+        formService.submitTaskForm(taskId, map);
+
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        byte[] decodedBytes = decoder.decodeBuffer(dto.getFile());
+
+        File file = new File("src/main/pdf/" + dto.getFileName());
+        FileOutputStream fop = new FileOutputStream(file);
+        fop.write(decodedBytes);
+        fop.flush();
+        fop.close();
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
     }
     private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
     {

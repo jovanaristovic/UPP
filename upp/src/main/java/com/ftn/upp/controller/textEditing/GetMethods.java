@@ -78,9 +78,10 @@ public class GetMethods {
         for(FormField fp : properties) {
             System.out.println(fp.getId() + fp.getType());
         }
-        FormSubmissionDto taskFormData = new FormSubmissionDto("username" , username);
-        runtimeService.setVariable(task.getProcessInstanceId(), "username", taskFormData);
-
+        if(!username.equals("nema")) {
+            FormSubmissionDto taskFormData = new FormSubmissionDto("username", username);
+            runtimeService.setVariable(task.getProcessInstanceId(), "username", taskFormData);
+        }
 
         return new FormFieldsDto(task.getId(), pi.getId(), properties);
     }
@@ -105,7 +106,11 @@ public class GetMethods {
     public @ResponseBody
     FormFieldsDto getNext(@PathVariable String procesInstanceId) {
 
-        Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).list().get(0);
+        if( (taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("autor").list().isEmpty())){
+            return null;
+
+        }
+        Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("autor").list().get(0);
 
         TaskFormData tfd = formService.getTaskFormData(task.getId());
         List<FormField> properties = tfd.getFormFields();

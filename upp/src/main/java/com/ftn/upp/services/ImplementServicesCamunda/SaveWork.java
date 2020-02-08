@@ -53,6 +53,7 @@ public class SaveWork implements JavaDelegate {
     public void execute(DelegateExecution delegateExecution) throws Exception {
 
         List<FormSubmissionDto> workDto= (List<FormSubmissionDto>) delegateExecution.getVariable("newWork");
+        String pfdName = (String) delegateExecution.getVariable("pdfName");
         FormSubmissionDto usernameDto = (FormSubmissionDto) delegateExecution.getVariable("username");
 
         FormSubmissionDto scientificField = null;
@@ -60,10 +61,12 @@ public class SaveWork implements JavaDelegate {
             if (dto.getFieldId().equals("name")) {
                 scientificField = dto;
             }
+
         }
         ScientificField scientificFieldBase = this.scientificFieldService.findByName(scientificField.getFieldValue());
         Work work = new Work(workDto);
         work.setScientificField(scientificFieldBase);
+        work.setPdf(pfdName);
 
         User user = this.userService.findUserByUsername(usernameDto.getFieldValue());
         if(work.getUsers() != null){

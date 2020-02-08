@@ -31,6 +31,7 @@ public class Work implements Serializable {
     @Column
     private String pdf;
 
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "work_user",
             joinColumns = @JoinColumn(name = "work_id", referencedColumnName = "id"),
@@ -117,4 +118,5 @@ public class Work implements Serializable {
     public void setScientificField(ScientificField scientificField) {
         this.scientificField = scientificField;
     }
+
 }
