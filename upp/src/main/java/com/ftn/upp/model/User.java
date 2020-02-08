@@ -66,6 +66,9 @@ public class User implements Serializable, UserDetails {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ScientificField> scientificFields;
 
+    @OneToOne
+    private Mempership mempership;
+
     public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
@@ -228,6 +231,14 @@ public class User implements Serializable, UserDetails {
         return serialVersionUID;
     }
 
+
+    public Mempership getMempership() {
+        return mempership;
+    }
+
+    public void setMempership(Mempership mempership) {
+        this.mempership = mempership;
+    }
 
     @Override
     public boolean isEnabled(){

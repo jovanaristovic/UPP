@@ -4,6 +4,7 @@ import com.ftn.upp.model.User;
 import com.ftn.upp.security.TokenUtils;
 import com.ftn.upp.security.auth.JwtAuthenticationRequest;
 import com.ftn.upp.services.CustomUserDetailsService;
+import org.camunda.bpm.engine.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -29,6 +30,9 @@ public class AuthenticationController {
     @Autowired
     private TokenUtils tokenUtils;
 
+
+    @Autowired
+    private IdentityService identityService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -60,6 +64,7 @@ public class AuthenticationController {
          // Vrati token kao odgovor na uspesno autentifikaciju
          HttpHeaders headers = new HttpHeaders();
          headers.add("Authorization: Bearer", jwt);
+
          return ResponseEntity.ok().headers(headers).build();
      } catch (Exception e){
          return ResponseEntity.notFound().build();

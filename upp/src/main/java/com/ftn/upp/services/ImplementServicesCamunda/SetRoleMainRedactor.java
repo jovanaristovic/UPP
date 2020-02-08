@@ -10,6 +10,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +30,10 @@ public class SetRoleMainRedactor implements JavaDelegate {
         String redactorEmail = redactorDto.getFieldValue();
         redactorEmail += ".com";
         Authority authority = this.authorityRepository.findAuthorityByName("MAIN_REDACTOR");
-        List<Authority> authorities = Arrays.asList(authority);
-
+//        List<Authority> authorities = Arrays.asList(authority);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authority);
         User user = this.userService.findUserByUsername(redactorEmail);
-        user.getAuthorities().removeAll(user.getAuthorities());
         user.setAuthorities(authorities);
 
     }

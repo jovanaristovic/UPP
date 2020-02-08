@@ -6,6 +6,8 @@ import com.ftn.upp.services.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JournalServiceImpl implements JournalService {
 
@@ -26,5 +28,10 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public Journal findJournalByISSN(String ISSN) {
         return this.journalRepository.findJournalByISSN(ISSN);
+    }
+
+    @Override
+    public List<Journal> findAllJournals() {
+        return journalRepository.findAll();
     }
 }

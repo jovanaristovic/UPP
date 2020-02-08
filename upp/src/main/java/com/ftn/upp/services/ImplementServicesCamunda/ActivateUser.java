@@ -1,6 +1,5 @@
 package com.ftn.upp.services.ImplementServicesCamunda;
 
-import com.ftn.upp.dto.ActivateAccountDto;
 import com.ftn.upp.dto.FormSubmissionDto;
 import com.ftn.upp.model.User;
 import com.ftn.upp.repository.UserRepository;

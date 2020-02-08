@@ -10,6 +10,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +37,9 @@ public class SetRoleReviewerAndSave implements JavaDelegate {
 
         User user =  userRepository.findUserByUsername(usernameDTO.getFieldValue());
         Authority authority = authorityRepository.findAuthorityByName("REVIEWER");
-        List<Authority> authorities = Arrays.asList(authority);
+//        List<Authority> authorities = Arrays.asList(authority);
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(authority);
         user.setAuthorities(authorities);
         user.setReviewer(true);
         this.userRepository.save(user);

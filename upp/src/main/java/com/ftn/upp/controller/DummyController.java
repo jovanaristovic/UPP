@@ -252,7 +252,7 @@ public class DummyController {
         }
 
         if(!isImeValid || !isPrezimeValid || !isGradValid || !isDrzavaValid || userExistsUsername || userExistsEmail ||
-                !isTitulaValid|| !isEmailValid || !isKorisnickoImeValid || !isBrNaucnihValid ){
+                !isTitulaValid|| !isEmailValid || !isBrNaucnihValid ){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         }
