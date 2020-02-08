@@ -77,18 +77,22 @@ export class UserService {
 
     }
 
-    pay(taskId, user) {
+    pay(user, taskId) {
         return this.httpClient.post('api/post/pay/'.concat(taskId), user ) as Observable<any>;
 
     }
 
-    postNewWork(taskId, work) {
-        return this.httpClient.post('api/post/new/work/'.concat(taskId), work) as Observable<any>;
-
-    }
+    // postNewWork(taskId, work) {
+    //     return this.httpClient.post('api/post/new/work/'.concat(taskId), work) as Observable<any>;
+    //
+    // }
 
     postKoautor(taskId, koautor) {
         return this.httpClient.post('api/post/add/koautor/'.concat(taskId), koautor) as Observable<any>;
+
+    }
+    postFileUpload(y, taskId) {
+        return this.httpClient.post('api/post/upload/file/'.concat(taskId), y) as Observable<any>;
 
     }
 
