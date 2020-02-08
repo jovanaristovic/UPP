@@ -64,13 +64,31 @@ export class UserService {
     }
 
     postAddRedactor(redactor, taskId) {
-        console.log('udje u redaktora');
         return this.httpClient.post('api/welcome/post/redactor/'.concat(taskId), redactor) as Observable<any>;
 
     }
     postAddReviewer(reviewer, taskId) {
-        console.log('udje u recenzenta');
         return this.httpClient.post('api/welcome/post/reviewer/'.concat(taskId), reviewer) as Observable<any>;
+
+    }
+
+    chooseJournal(journal, taskId) {
+        return this.httpClient.post('api/post/choose/journal/'.concat(taskId), journal) as Observable<any>;
+
+    }
+
+    pay(taskId, user) {
+        return this.httpClient.post('api/post/pay/'.concat(taskId), user ) as Observable<any>;
+
+    }
+
+    postNewWork(taskId, work) {
+        return this.httpClient.post('api/post/new/work/'.concat(taskId), work) as Observable<any>;
+
+    }
+
+    postKoautor(taskId, koautor) {
+        return this.httpClient.post('api/post/add/koautor/'.concat(taskId), koautor) as Observable<any>;
 
     }
 

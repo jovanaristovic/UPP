@@ -1,0 +1,47 @@
+<div *ngIf="ulogovan" class="container">
+    <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+
+                <div *ngFor="let field of formFields" >
+                    <label for={{field.id}}>{{field.label}} </label>
+                    <div class="form-group">
+                        <input type="text" name={{field.id}} ngModel  *ngIf="field.type.name=='string'" >
+                        <input type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">
+                        <input type="number" name={{field.id}} ngModel  *ngIf="field.type.name=='long'">
+                        <select ngModel  name="title" class="form-control"  *ngIf="field.type.name=='enum' && prviEnum">
+                            <option *ngFor="let val of enumValues" value={{val}}>
+                                {{val}}
+                            </option>
+                        </select>
+                        <select ngModel name="name" class="form-control"  *ngIf="field.type.name=='enum' && drugiEnum">
+                            <option *ngFor="let val of enumValuesScientFields" value={{val}}>
+                                {{val}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-primary pull-right">
+            </form>
+
+        </div>
+        <div class="offset-3"></div>
+    </div>
+</div>
+
+
+<div *ngIf="prikaziPoruku" class="container">
+    <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+       <label> Potrebno je da se ulogujete kako biste pokrenuli ovaj proces!</label>
+            <label> Nemate nalog? Registrujte se!</label>
+            <button class="btn btn-primary pull-right" (click)="registracija()"> Registracija </button>
+
+
+        </div>
+        <div class="offset-3"></div>
+    </div>
+</div>

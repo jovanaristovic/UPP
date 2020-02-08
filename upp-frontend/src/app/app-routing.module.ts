@@ -11,6 +11,7 @@ import {JournalComponent} from './Components/journal/journal.component';
 import {JournalNextTasksComponent} from './Components/journal-next-tasks/journal-next-tasks.component';
 import {AdminJournalsComponent} from './Components/admin-journals/admin-journals.component';
 import {FormForDataCorrectionComponent} from './Components/form-for-data-correction/form-for-data-correction.component';
+import {TextEditComponent} from './Components/text-edit/text-edit.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -23,7 +24,9 @@ const appRoutes: Routes = [
     {path: 'createJournal', component: JournalComponent},
     {path: 'nextTaskJournal/:procesInstanceId', component: JournalNextTasksComponent},
     {path: 'journalsAdmin', component: AdminJournalsComponent },
-    {path: 'corectData/:procesInstanceId', component: FormForDataCorrectionComponent }
+    {path: 'corectData/:procesInstanceId', component: FormForDataCorrectionComponent },
+    {path: 'textEdit', component: TextEditComponent }
+
 
 ];
 

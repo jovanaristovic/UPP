@@ -48,4 +48,23 @@ export class RepositoryService {
 
     }
 
+
+    startProcessTextEdit(username) {
+        return this.httpClient.get('api/get/start/process/'.concat(username)) as Observable<any>;
+
+    }
+
+    getJournals(processInstanceId) {
+        return this.httpClient.get('api/get/journals/'.concat(processInstanceId)) as Observable<any>;
+
+    }
+    getNextTaskJournal(processInstanceId) {
+        return this.httpClient.get('api/get/next/'.concat(processInstanceId)) as Observable<any>;
+
+    }
+
+    getScientificFields(processInstanceId) {
+        return this.httpClient.get('api/get/scientificFields/'.concat(processInstanceId)) as Observable<any>;
+
+    }
 }

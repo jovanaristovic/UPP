@@ -24,6 +24,7 @@ import { JournalComponent } from './Components/journal/journal.component';
 import { JournalNextTasksComponent } from './Components/journal-next-tasks/journal-next-tasks.component';
 import { AdminJournalsComponent } from './Components/admin-journals/admin-journals.component';
 import { FormForDataCorrectionComponent } from './Components/form-for-data-correction/form-for-data-correction.component';
+import { TextEditComponent } from './Components/text-edit/text-edit.component';
 
 
 const Routes = [
@@ -48,7 +49,8 @@ const Routes = [
       JournalComponent,
       JournalNextTasksComponent,
       AdminJournalsComponent,
-      FormForDataCorrectionComponent
+      FormForDataCorrectionComponent,
+      TextEditComponent
   ],
   imports: [
       BrowserModule,
