@@ -162,7 +162,7 @@ export class TextEditComponent implements OnInit {
                 }
             );
         } else if (this.noviCasopis === true) {
-
+          console.log(this.fileField.toString());
           const y = new FormSubmissionWithFileDto(o, this.fileField.toString(), this.fileName.toString());
 
           const xf = this.userService.postFileUpload(y, this.formFieldsDto.taskId);
@@ -318,7 +318,7 @@ export class TextEditComponent implements OnInit {
 
             field.value = fileReader.result;
             this.fileField = fileReader.result;
-            console.log(fileReader.result);
+            // console.log(fileReader.result);
         };
 
         fileReader.readAsDataURL(files.item(0));
