@@ -1,0 +1,34 @@
+<div  class="container">
+    <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
+
+                <div *ngFor="let field of formFields" >
+                    <label for={{field.id}}>{{field.label}} </label>
+                    <div class="form-group">
+                        <input type="text" name={{field.id}} ngModel  *ngIf="field.type.name=='string'" >
+                        <input type="checkbox" name={{field.id}} ngModel  *ngIf="field.type.name=='boolean'">
+                        <input type="number" name={{field.id}} ngModel  *ngIf="field.type.name=='long'">
+                        <select ngModel  name="email" class="form-control"  *ngIf="field.type.name=='enum'">
+                            <option *ngFor="let val of enumValues" value={{val}}>
+                                {{val}}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <!--<div *ngIf="noviCasopis" class="form-group" >-->
+                <!--<label for [for]="file"> Ucitavanje fajla:</label>-->
+                <!--<input type="file" class="form-control" accept="application/pdf" (change)="onSelectFile($event)" style="height: 100%" >-->
+                <!--</div>-->
+                <!--<input  *ngIf="noviCasopis"  type="file" accept="application/pdf"  (change)="fileChoserListener($event.target.files, field)">-->
+
+                <input type="submit" class="btn btn-primary pull-right">
+            </form>
+
+        </div>
+        <div class="offset-3"></div>
+    </div>
+</div>
+

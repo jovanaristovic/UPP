@@ -81,4 +81,14 @@ export class RepositoryService {
         return this.httpClient.get('api/get/next/ispravljenje/podataka/'.concat(processInstanceId)) as Observable<any>;
 
     }
+
+    getUrednikNaucneTasks(processInstanceId) {
+        return this.httpClient.get('api/get/next/urednik/naucne/'.concat(processInstanceId)) as Observable<any>;
+
+    }
+
+    getRecenzenti(processInstanceId) {
+        return this.httpClient.get('api/get/recenzenti/'.concat(processInstanceId)) as Observable<any>;
+
+    }
 }

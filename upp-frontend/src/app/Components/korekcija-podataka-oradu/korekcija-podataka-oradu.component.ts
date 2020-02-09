@@ -14,26 +14,11 @@ export class KorekcijaPodatakaORaduComponent implements OnInit {
     private formFieldsDto = null;
     private formFields = [];
     private processInstanceId = '';
-    private enumValues = [];
-    private enumValuesScientFields = [];
 
-    private tasks = [];
-    private nextTask = '';
     taskId = '';
-    journals: any;
-    scientificFields: any;
     ulogovan: boolean;
     prikaziPoruku: boolean;
-    uplataClanarine = false;
-    noviCasopis = false;
-    izborCasopisa = false;
-    prviEnum = true;
-    drugiEnum = false;
-    dodavanjeKoautora = false;
     file: File;
-    trebajuNaucne = false;
-    proveraDaLiTrebaReg = false;
-    potrebnaReg = false;
 
 
     private fileField = null;
@@ -89,13 +74,6 @@ export class KorekcijaPodatakaORaduComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
-
-
-
-
-
 
     onSubmit(value, form) {
         const o = new Array();

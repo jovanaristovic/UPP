@@ -110,6 +110,21 @@ export class UserService {
 
     }
 
+    postBrojRecenzenata(taskId, pregled) {
+        return this.httpClient.post('api/post/broj/recenzenata/'.concat(taskId), pregled) as Observable<any>;
+
+    }
+
+    postDodavanjeRecenzenata(taskId, rec) {
+        return this.httpClient.post('api/post/dodavanje/recenzenta//'.concat(taskId), rec) as Observable<any>;
+
+    }
+
+    postRokRecenzije(taskId, rok) {
+        return this.httpClient.post('api/post/rok/recenzija/'.concat(taskId), rok) as Observable<any>;
+
+    }
+
 
     getToken(): string {
         const currentUser = JSON.parse(localStorage.getItem('loggedUser'));

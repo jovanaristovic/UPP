@@ -14,6 +14,7 @@ import {FormForDataCorrectionComponent} from './Components/form-for-data-correct
 import {TextEditComponent} from './Components/text-edit/text-edit.component';
 import {PregledRadovaComponent} from './Components/pregled-radova/pregled-radova.component';
 import {KorekcijaPodatakaORaduComponent} from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
+import {UrednikNaucneComponent} from './Components/urednik-naucne/urednik-naucne.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     {path: 'corectData/:procesInstanceId', component: FormForDataCorrectionComponent },
     {path: 'textEdit', component: TextEditComponent },
     {path: 'pregledRadova', component: PregledRadovaComponent},
-    {path: 'korekcijaRada', component: KorekcijaPodatakaORaduComponent}
+    {path: 'korekcijaRada', component: KorekcijaPodatakaORaduComponent},
+    {path: 'urednikNaucne', component: UrednikNaucneComponent}
 
 
 ];

@@ -27,6 +27,7 @@ import { FormForDataCorrectionComponent } from './Components/form-for-data-corre
 import { TextEditComponent } from './Components/text-edit/text-edit.component';
 import { PregledRadovaComponent } from './Components/pregled-radova/pregled-radova.component';
 import { KorekcijaPodatakaORaduComponent } from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
+import { UrednikNaucneComponent } from './Components/urednik-naucne/urednik-naucne.component';
 
 
 const Routes = [
@@ -54,7 +55,8 @@ const Routes = [
       FormForDataCorrectionComponent,
       TextEditComponent,
       PregledRadovaComponent,
-      KorekcijaPodatakaORaduComponent
+      KorekcijaPodatakaORaduComponent,
+      UrednikNaucneComponent
   ],
   imports: [
       BrowserModule,
