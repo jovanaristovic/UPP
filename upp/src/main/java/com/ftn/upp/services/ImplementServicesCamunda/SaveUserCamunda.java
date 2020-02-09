@@ -20,7 +20,6 @@ public class SaveUserCamunda implements JavaDelegate {
 
         List<FormSubmissionDto> registration = (List<FormSubmissionDto>) execution.getVariable("registration");
 
-//        List<User> usersForDelete = identityService.createUserQuery().userIdIn("klkl","korisnickooo","jkooo","jbhj","jk","1", "aaaaaaa", "imee", "immsksks","imeee").list();
         String username = "";
         User user = identityService.newUser("1");
         for (FormSubmissionDto formField : registration) {

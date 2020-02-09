@@ -75,6 +75,6 @@ public class SendEmailForWork implements JavaDelegate {
         mailAuthor.setText("Uspesno ste prijavili rad!" );
         //       javaMailSender.send(mailAuthor);
 
-        System.out.println("Email poslat!");
+        System.out.println("Email da je novi rad prijavljen poslat!");
     }
 }

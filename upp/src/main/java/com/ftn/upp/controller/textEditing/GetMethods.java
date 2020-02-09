@@ -121,6 +121,26 @@ public class GetMethods {
         return new FormFieldsDto(task.getId(), procesInstanceId, properties);
     }
 
+    @GetMapping(path = "/next/podproces/{procesInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getNextPodproces(@PathVariable String procesInstanceId) {
+
+        if( (taskService.createTaskQuery().processInstanceId(procesInstanceId).list().isEmpty())){
+            return null;
+
+        }
+        Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).list().get(0);
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+        return new FormFieldsDto(task.getId(), procesInstanceId, properties);
+    }
+
+
 
     @GetMapping(value = "/scientificFields/{processInstanceId}")
     public ResponseEntity<List<ScientificFieldDto>> getScientificFields(@PathVariable String processInstanceId){
@@ -134,5 +154,23 @@ public class GetMethods {
         }
 
         return new ResponseEntity(scientificFieldDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/main/redactor/{processInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getUrednik( @PathVariable String processInstanceId) {
+
+        processInstanceId = processInstanceId.substring(1, processInstanceId.length() - 1);
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).taskCandidateGroup("urednik").list().get(0);
+
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+
+        return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
     }
 }

@@ -13,6 +13,7 @@ import com.ftn.upp.services.JournalService;
 import com.ftn.upp.services.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.task.Task;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("api/post")
@@ -178,6 +177,7 @@ public class PostMethods {
 
         BASE64Decoder decoder = new BASE64Decoder();
         byte[] decodedBytes = decoder.decodeBuffer(dto.getFile());
+        runtimeService.setVariable(processInstanceId, "pdfRad", decodedBytes);
 
         File file = new File("src/main/pdf/" + dto.getFileName());
         FileOutputStream fop = new FileOutputStream(file);
@@ -188,6 +188,59 @@ public class PostMethods {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
     }
+
+    //RESPONSE NE VALJA
+    @PostMapping(path = "/workReview/{taskId}", produces = "application/json")
+    public ResponseEntity postWorkReview(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+
+        FormSubmissionDto relevantanDto = null;
+        for (FormSubmissionDto dto1 : dto) {
+            if (dto1.getFieldId().equals("relevantan")) {
+                relevantanDto = dto1;
+            }
+        }
+
+        runtimeService.setVariable(processInstanceId, "pregledanRad", dto );
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/need/registration/{taskId}", produces = "application/json")
+    public
+    ResponseEntity<FormSubmissionDto> needRegistration(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+        FormSubmissionDto needDto = null;
+        for (FormSubmissionDto dto1 : dto) {
+            if (dto1.getFieldId().equals("potrebnaRegistracija")) {
+                needDto = dto1;
+            }
+        }
+        formService.submitTaskForm(taskId, map);
+        return new ResponseEntity<>(needDto,HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/pregled/pdf/{taskId}", produces = "application/json")
+    public ResponseEntity postPregledPdf(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+
+
+        runtimeService.setVariable(processInstanceId, "pregledanPdf", dto );
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
     private HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list)
     {
         HashMap<String, Object> map = new HashMap<String, Object>();
