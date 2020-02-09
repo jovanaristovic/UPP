@@ -27,18 +27,16 @@ export class TextEditComponent implements OnInit {
     scientificFields: any;
     ulogovan: boolean;
     prikaziPoruku: boolean;
-    choosenMagazine: any;
-    idProcess: any;
     uplataClanarine = false;
     noviCasopis = false;
     izborCasopisa = false;
     prviEnum = true;
     drugiEnum = false;
     dodavanjeKoautora = false;
-    formData: FormData;
     file: File;
-    fileList: FileList;
     trebajuNaucne = false;
+    proveraDaLiTrebaReg = false;
+    potrebnaReg = false;
 
 
     private fileField = null;
@@ -86,6 +84,7 @@ export class TextEditComponent implements OnInit {
 
               });
              } else {
+                  this.ulogovan = true;
                   this.getAnotherTask();
               }
 
@@ -110,7 +109,7 @@ export class TextEditComponent implements OnInit {
       this.dodavanjeKoautora = false;
       this.noviCasopis = false;
       for (const property in value) {
-          console.log(property);
+          // console.log(property);
           o.push({fieldId : property, fieldValue : value[property]});
 
           if (property === 'title') {
@@ -123,7 +122,9 @@ export class TextEditComponent implements OnInit {
 
             } else if (property === 'imeKoautora') {
                 this.dodavanjeKoautora = true;
-            }
+            } else if (property === 'potrebnaRegistracija') {
+              this.potrebnaReg = value[property];
+          }
 
         }
       if (this.izborCasopisa === true) {
@@ -197,6 +198,28 @@ export class TextEditComponent implements OnInit {
 
               }
           );
+      } else if (this.proveraDaLiTrebaReg === true) {
+
+          if (this.potrebnaReg !== true) {
+              this.router.navigate(['/login']);
+
+          } else {
+          const x = this.userService.postReg(this.formFieldsDto.taskId, o);
+
+
+          x.subscribe(
+              res => {
+                  alert('Success');
+                  this.router.navigate(['/register']);
+
+              },
+              err => {
+                  console.log('Error occured');
+                  alert('Value of field is empty or not valid!');
+
+              }
+          );
+      }
       }
     }
 
@@ -224,6 +247,8 @@ export class TextEditComponent implements OnInit {
                 for (const field of this.formFields) {
                     if (field.id === 'apstrakt') {
                         this.trebajuNaucne = true;
+                    } else if (field.id === 'potrebnaRegistracija') {
+                        this.proveraDaLiTrebaReg = true;
                     }
                 }
 
@@ -248,6 +273,37 @@ export class TextEditComponent implements OnInit {
                 console.log('Error occured');
             }
         );
+    }
+
+    getPodproces() {
+        this.prviEnum = false;
+        this.drugiEnum = true;
+        const x = this.repositoryService.getPodproces(this.processInstanceId);
+        this.noviCasopis = true;
+
+        x.subscribe(
+            res => {
+                if (res === null) {
+                    this.router.navigate(['/home']);
+                } else {
+                    this.taskId = res.taskId;
+
+                    this.formFieldsDto = res;
+                    this.formFields = res.formFields;
+
+
+                    this.processInstanceId = res.processInstanceId;
+
+
+
+                } },
+            err => {
+                console.log('Error occured');
+            }
+        );
+
+
+
     }
 
 

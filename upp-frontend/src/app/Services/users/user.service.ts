@@ -82,6 +82,11 @@ export class UserService {
 
     }
 
+    postReg(taskId, reg) {
+        return this.httpClient.post('api/post/need/registration/'.concat(taskId), reg ) as Observable<any>;
+
+    }
+
     // postNewWork(taskId, work) {
     //     return this.httpClient.post('api/post/new/work/'.concat(taskId), work) as Observable<any>;
     //
@@ -93,6 +98,15 @@ export class UserService {
     }
     postFileUpload(y, taskId) {
         return this.httpClient.post('api/post/upload/file/'.concat(taskId), y) as Observable<any>;
+
+    }
+
+    postWorkReview(taskId, work) {
+        return this.httpClient.post('api/post/workReview/'.concat(taskId), work) as Observable<any>;
+
+    }
+    postPregledanPdf(taskId, pregled) {
+        return this.httpClient.post('api/post/pregled/pdf/'.concat(taskId), pregled) as Observable<any>;
 
     }
 

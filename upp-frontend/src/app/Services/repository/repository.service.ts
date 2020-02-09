@@ -62,9 +62,18 @@ export class RepositoryService {
         return this.httpClient.get('api/get/next/'.concat(processInstanceId)) as Observable<any>;
 
     }
+    getPodproces(processInstanceId) {
+        return this.httpClient.get('api/get/next/podproces/'.concat(processInstanceId)) as Observable<any>;
+
+    }
 
     getScientificFields(processInstanceId) {
         return this.httpClient.get('api/get/scientificFields/'.concat(processInstanceId)) as Observable<any>;
+
+    }
+
+    getTaskForRedactor(procesInstanceId) {
+        return this.httpClient.get('api/get/main/redactor/'.concat(procesInstanceId)) as Observable<any>;
 
     }
 }

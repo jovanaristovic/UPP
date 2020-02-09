@@ -25,6 +25,7 @@ import { JournalNextTasksComponent } from './Components/journal-next-tasks/journ
 import { AdminJournalsComponent } from './Components/admin-journals/admin-journals.component';
 import { FormForDataCorrectionComponent } from './Components/form-for-data-correction/form-for-data-correction.component';
 import { TextEditComponent } from './Components/text-edit/text-edit.component';
+import { PregledRadovaComponent } from './Components/pregled-radova/pregled-radova.component';
 
 
 const Routes = [
@@ -50,7 +51,8 @@ const Routes = [
       JournalNextTasksComponent,
       AdminJournalsComponent,
       FormForDataCorrectionComponent,
-      TextEditComponent
+      TextEditComponent,
+      PregledRadovaComponent
   ],
   imports: [
       BrowserModule,
