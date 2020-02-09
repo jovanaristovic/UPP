@@ -121,9 +121,31 @@ public class GetMethods {
         return new FormFieldsDto(task.getId(), procesInstanceId, properties);
     }
 
+    @GetMapping(path = "/next/ispravljenje/podataka/{procesInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getNextIspravljanjePodataka(@PathVariable String procesInstanceId) {
+
+        procesInstanceId = procesInstanceId.substring(1, procesInstanceId.length() - 1);
+
+        if( (taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("autor").list().isEmpty())){
+            return null;
+
+        }
+        Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("autor").list().get(0);
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+        return new FormFieldsDto(task.getId(), procesInstanceId, properties);
+    }
+
     @GetMapping(path = "/next/podproces/{procesInstanceId}", produces = "application/json")
     public @ResponseBody
     FormFieldsDto getNextPodproces(@PathVariable String procesInstanceId) {
+
 
         if( (taskService.createTaskQuery().processInstanceId(procesInstanceId).list().isEmpty())){
             return null;

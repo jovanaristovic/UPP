@@ -189,7 +189,6 @@ public class PostMethods {
 
     }
 
-    //RESPONSE NE VALJA
     @PostMapping(path = "/workReview/{taskId}", produces = "application/json")
     public ResponseEntity postWorkReview(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
 

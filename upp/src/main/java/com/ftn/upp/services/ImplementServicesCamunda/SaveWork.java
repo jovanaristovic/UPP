@@ -63,9 +63,11 @@ public class SaveWork implements JavaDelegate {
             }
 
         }
-        ScientificField scientificFieldBase = this.scientificFieldService.findByName(scientificField.getFieldValue());
         Work work = new Work(workDto);
-        work.setScientificField(scientificFieldBase);
+        if(scientificField != null) {
+            ScientificField scientificFieldBase = this.scientificFieldService.findByName(scientificField.getFieldValue());
+            work.setScientificField(scientificFieldBase);
+        }
         work.setPdf(pfdName);
 
         User user = this.userService.findUserByUsername(usernameDto.getFieldValue());
