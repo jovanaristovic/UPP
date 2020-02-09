@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findAll() {
+        return this.userRepository.findAll();
+    }
+
+    @Override
     public void sendMailForActivation(User user) throws MailException {
 
     }

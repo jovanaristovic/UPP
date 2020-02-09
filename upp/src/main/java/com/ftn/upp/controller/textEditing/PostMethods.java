@@ -172,6 +172,15 @@ public class PostMethods {
         runtimeService.setVariable(processInstanceId, "newWork", dto.getForm());
         runtimeService.setVariable(processInstanceId, "pdfName", dto.getFileName());
 
+        FormSubmissionDto naucnaDto = null;
+        for (FormSubmissionDto dto1 : dto.getForm()) {
+            if (dto1.getFieldId().equals("name")) {
+                naucnaDto = dto1;
+            }
+        }
+        if(naucnaDto != null) {
+            runtimeService.setVariable(processInstanceId, "naucnaOblast", naucnaDto);
+        }
         formService.submitTaskForm(taskId, map);
 
 
@@ -235,6 +244,69 @@ public class PostMethods {
 
 
         runtimeService.setVariable(processInstanceId, "pregledanPdf", dto );
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/broj/recenzenata/{taskId}", produces = "application/json")
+    public ResponseEntity postBrojRecezenata(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+//        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+//        String processInstanceId = task.getProcessInstanceId();
+
+
+//        runtimeService.setVariable(processInstanceId, "pregledanPdf", dto );
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+    @PostMapping(path = "/dodavanje/recenzenta/{taskId}", produces = "application/json")
+    public ResponseEntity postOdabirRecenzenta(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+
+        List<FormSubmissionDto> workDto = (List<FormSubmissionDto>) runtimeService.getVariable(processInstanceId,"newWork");
+
+        FormSubmissionDto titleDto = null;
+        for (FormSubmissionDto dto1 : workDto) {
+            if (dto1.getFieldId().equals("naslov")) {
+                titleDto = dto1;
+            }
+        }
+
+        FormSubmissionDto recDto = null;
+        for (FormSubmissionDto dto1 : dto) {
+            if (dto1.getFieldId().equals("email")) {
+                recDto = dto1;
+            }
+        }
+        User user = this.userService.findUserByEmail(recDto.getFieldValue());
+        Work work = this.workRepository.findWorkByTitle(titleDto.getFieldValue());
+        work.getUsers().add(user);
+        this.workRepository.save(work);
+//        runtimeService.setVariable(processInstanceId, "pregledanRad", dto );
+
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @PostMapping(path = "/rok/recenzija/{taskId}", produces = "application/json")
+    public ResponseEntity postRokRecenzija(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+//        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+//        String processInstanceId = task.getProcessInstanceId();
+//
+//
+//        runtimeService.setVariable(processInstanceId, "pregledanPdf", dto );
         formService.submitTaskForm(taskId, map);
         return  new ResponseEntity<>(HttpStatus.OK);
 

@@ -1,11 +1,9 @@
 package com.ftn.upp.controller.textEditing;
 
-import com.ftn.upp.dto.FormFieldsDto;
-import com.ftn.upp.dto.FormSubmissionDto;
-import com.ftn.upp.dto.JournalDto;
-import com.ftn.upp.dto.ScientificFieldDto;
+import com.ftn.upp.dto.*;
 import com.ftn.upp.model.Journal;
 import com.ftn.upp.model.ScientificField;
+import com.ftn.upp.model.User;
 import com.ftn.upp.repository.ScienceFieldRepository;
 import com.ftn.upp.repository.UserRepository;
 import com.ftn.upp.services.JournalService;
@@ -13,7 +11,6 @@ import com.ftn.upp.services.UserService;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
-import org.camunda.bpm.engine.identity.User;
 import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -142,6 +139,28 @@ public class GetMethods {
         return new FormFieldsDto(task.getId(), procesInstanceId, properties);
     }
 
+
+    @GetMapping(path = "/next/urednik/naucne/{procesInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getUrednikNaucne(@PathVariable String procesInstanceId) {
+
+        procesInstanceId = procesInstanceId.substring(1, procesInstanceId.length() - 1);
+
+        if( (taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("urednikOblasti").list().isEmpty())){
+            return null;
+
+        }
+        Task task = taskService.createTaskQuery().processInstanceId(procesInstanceId).taskCandidateGroup("urednikOblasti").list().get(0);
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+        return new FormFieldsDto(task.getId(), procesInstanceId, properties);
+    }
+
     @GetMapping(path = "/next/podproces/{procesInstanceId}", produces = "application/json")
     public @ResponseBody
     FormFieldsDto getNextPodproces(@PathVariable String procesInstanceId) {
@@ -194,5 +213,23 @@ public class GetMethods {
 
 
         return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+    }
+
+    @GetMapping(value = "/recenzenti/{processInstanceId}")
+    public ResponseEntity<List<UserDto>> getRecenzenti(@PathVariable String processInstanceId){
+
+//        processInstanceId = processInstanceId.substring(1, processInstanceId.length() - 1);
+
+        List<com.ftn.upp.model.User> users = (List<com.ftn.upp.model.User>) runtimeService.getVariable(processInstanceId,"recenzenti");
+        if(users.isEmpty()) {
+            return null;
+        }
+        List<UserDto> userDtos = new ArrayList<>();
+        for(User m: users){
+            UserDto userDto = new UserDto(m.getId(), m.getEmail());
+            userDtos.add(userDto);
+        }
+
+        return new ResponseEntity(userDtos, HttpStatus.OK);
     }
 }
