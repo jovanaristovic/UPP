@@ -13,6 +13,7 @@ import {AdminJournalsComponent} from './Components/admin-journals/admin-journals
 import {FormForDataCorrectionComponent} from './Components/form-for-data-correction/form-for-data-correction.component';
 import {TextEditComponent} from './Components/text-edit/text-edit.component';
 import {PregledRadovaComponent} from './Components/pregled-radova/pregled-radova.component';
+import {KorekcijaPodatakaORaduComponent} from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -27,7 +28,8 @@ const appRoutes: Routes = [
     {path: 'journalsAdmin', component: AdminJournalsComponent },
     {path: 'corectData/:procesInstanceId', component: FormForDataCorrectionComponent },
     {path: 'textEdit', component: TextEditComponent },
-    {path: 'pregledRadova', component: PregledRadovaComponent}
+    {path: 'pregledRadova', component: PregledRadovaComponent},
+    {path: 'korekcijaRada', component: KorekcijaPodatakaORaduComponent}
 
 
 ];

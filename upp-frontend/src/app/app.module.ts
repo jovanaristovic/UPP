@@ -26,6 +26,7 @@ import { AdminJournalsComponent } from './Components/admin-journals/admin-journa
 import { FormForDataCorrectionComponent } from './Components/form-for-data-correction/form-for-data-correction.component';
 import { TextEditComponent } from './Components/text-edit/text-edit.component';
 import { PregledRadovaComponent } from './Components/pregled-radova/pregled-radova.component';
+import { KorekcijaPodatakaORaduComponent } from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
 
 
 const Routes = [
@@ -52,7 +53,8 @@ const Routes = [
       AdminJournalsComponent,
       FormForDataCorrectionComponent,
       TextEditComponent,
-      PregledRadovaComponent
+      PregledRadovaComponent,
+      KorekcijaPodatakaORaduComponent
   ],
   imports: [
       BrowserModule,

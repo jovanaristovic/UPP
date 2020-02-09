@@ -67,7 +67,7 @@ export class PregledRadovaComponent implements OnInit {
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     // this.getAnotherTask();
-                    // this.router.navigate(['/home']);
+                    this.router.navigate(['/home']);
 
                 },
                 err => {
