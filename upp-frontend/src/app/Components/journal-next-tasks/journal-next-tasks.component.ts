@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
 import {UserService} from '../../Services/users/user.service';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-journal-next-tasks',
@@ -21,7 +22,7 @@ export class JournalNextTasksComponent implements OnInit {
     dodavanjeUrednikaNaucne = false;
     dodavanjeRecenzenta = false;
 
-  constructor(private repoService: RepositoryService, private router: Router,  private userService: UserService) {
+  constructor(public toastr: ToastrManager, private repoService: RepositoryService, private router: Router,  private userService: UserService) {
       this.getAnotherTask();
   }
 
@@ -39,7 +40,7 @@ export class JournalNextTasksComponent implements OnInit {
             } else if (property === 'urednik') {
                 this.dodavanjeUrednikaNaucne = true;
 
-            } else if( property === 'recenzent') {
+            } else if ( property === 'recenzent') {
                 this.dodavanjeRecenzenta = true;
             }
 
@@ -52,7 +53,7 @@ export class JournalNextTasksComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success!');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
@@ -73,7 +74,7 @@ export class JournalNextTasksComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success!');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
 
@@ -94,7 +95,7 @@ export class JournalNextTasksComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success!');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
 

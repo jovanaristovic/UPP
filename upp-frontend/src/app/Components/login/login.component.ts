@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/login-after']);
             return;
           }*/
-          // location.reload();
+          location.reload();
           this.router.navigate(['/home']);
       }, error2 => {
           this.wrongUsernameOrPass = true;

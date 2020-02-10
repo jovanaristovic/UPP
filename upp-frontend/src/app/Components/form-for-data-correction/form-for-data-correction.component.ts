@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-form-for-data-correction',
@@ -19,14 +20,14 @@ export class FormForDataCorrectionComponent implements OnInit {
     taskId = '';
     href = '';
 
-  constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
+  constructor(public toastr: ToastrManager, private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
       this.href = this.router.url;
       this.processInstanceId = this.href.split('/')[2];
       const x = repositoryService.getTaskForCorrection(this.processInstanceId);
       console.log(this.processInstanceId);
 
-     x.subscribe(
+      x.subscribe(
           res => {
               console.log(res);
               this.taskId = res.taskId;
@@ -60,7 +61,7 @@ export class FormForDataCorrectionComponent implements OnInit {
             res => {
                 // console.log(res);
 
-                alert('Success!');
+                this.toastr.successToastr('Success!', 'Success');
                 // this.getTasks();
                 // this.router.navigate(['/task',  this.processInstanceId]);
                 // this.getAnotherTask();

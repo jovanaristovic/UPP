@@ -43,16 +43,16 @@ export class UserService {
 
     }
 
-    postAcceptReviewer(acceptReviewer, taskId){
+    postAcceptReviewer(acceptReviewer, taskId) {
         return this.httpClient.post('api/welcome/post/acceptReviewer/'.concat(taskId), acceptReviewer) as Observable<any>;
 
     }
-    postJournalReview(review, taskId){
+    postJournalReview(review, taskId) {
         return this.httpClient.post('api/welcome/post/journalReview/'.concat(taskId), review) as Observable<any>;
 
     }
 
-    postCorrectedJournal(journal, taskId){
+    postCorrectedJournal(journal, taskId) {
         return this.httpClient.post('api/welcome/post/correctedJournal/'.concat(taskId), journal) as Observable<any>;
 
     }
@@ -140,19 +140,28 @@ export class UserService {
         let userRole;
         if (user === null) {
             userRole = '';
-        } else {
+        }  else {
             for (const role of user.roles) {
-                if (role === 'ADMIN') {
+                if (role.authority === 'ADMIN') {
                     userRole = 'ADMIN';
-                } else if (role === 'ROLE_USER') {
+                } else if (role.authority === 'ROLE_USER') {
                     userRole = 'ROLE_USER';
-                } else if (role === 'REDACTOR') {
+                } else if (role.authority === 'REDACTOR') {
                     userRole = 'REDACTOR';
+                } else if (role.authority === 'REVIEWER') {
+                    userRole = 'REVIEWER';
+                } else if (role.authority === 'MAIN_REDACTOR') {
+                    userRole = 'MAIN_REDACTOR';
+                } else if (role.authority === 'REDACTOR_SCIENCE_FIELD') {
+                    userRole = 'REDACTOR_SCIENCE_FIELD';
+                } else if (role.authority === 'AUTHOR') {
+                    userRole = 'AUTHOR';
                 }
             }
         }
         return userRole;
     }
+
 
     isLoggedIn() {
         const user = JSON.parse(localStorage.getItem('loggedUser'));
@@ -181,7 +190,7 @@ export class UserService {
     }
 
     logout() {
-        localStorage.clear();
+        localStorage.removeItem('loggedUser');
         this.router.navigate(['/login']);
     }
 }

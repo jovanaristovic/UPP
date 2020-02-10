@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ɵAnimationRendererFactory} from '@angular/platform-browser/animations';
-import {Observable} from 'rxjs';
-import {RequestOptions} from '@angular/http';
 import {FormSubmissionWithFileDto} from '../model/FormSubmissionWithFileDto';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-text-edit',
@@ -43,7 +41,7 @@ export class TextEditComponent implements OnInit {
     private fileName = null;
 
 
-    constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router, private route: ActivatedRoute) {
+    constructor(public toastr: ToastrManager, private userService: UserService, private repositoryService: RepositoryService, private router: Router, private route: ActivatedRoute) {
       this.ulogovan = false;
       this.prikaziPoruku = true;
 
@@ -134,7 +132,7 @@ export class TextEditComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
                 },
@@ -151,7 +149,7 @@ export class TextEditComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
                 },
@@ -171,7 +169,7 @@ export class TextEditComponent implements OnInit {
               res => {
                   // console.log(res);
 
-                  alert('Success');
+                  this.toastr.successToastr('Success!', 'Success');
                   // this.router.navigate(['/task',  this.processInstanceId]);
                   this.getAnotherTask();
               },
@@ -188,7 +186,7 @@ export class TextEditComponent implements OnInit {
               res => {
                   // console.log(res);
 
-                  alert('Success');
+                  this.toastr.successToastr('Success!', 'Success');
                   // this.router.navigate(['/task',  this.processInstanceId]);
                   this.getAnotherTask();
               },
@@ -209,7 +207,7 @@ export class TextEditComponent implements OnInit {
 
           x.subscribe(
               res => {
-                  alert('Success');
+                  this.toastr.successToastr('Success!', 'Success');
                   this.router.navigate(['/register']);
 
               },

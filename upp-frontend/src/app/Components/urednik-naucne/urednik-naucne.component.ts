@@ -3,6 +3,7 @@ import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormSubmissionWithFileDto} from '../model/FormSubmissionWithFileDto';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-urednik-naucne',
@@ -25,7 +26,7 @@ export class UrednikNaucneComponent implements OnInit {
 
 
 
-  constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router, private route: ActivatedRoute) {
+  constructor(public toastr: ToastrManager, private userService: UserService, private repositoryService: RepositoryService, private router: Router, private route: ActivatedRoute) {
 
       const x = repositoryService.getUrednikNaucneTasks(localStorage.getItem('processInstanceId'));
 
@@ -93,7 +94,7 @@ export class UrednikNaucneComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
                 },
@@ -110,7 +111,7 @@ export class UrednikNaucneComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     // this.getAnotherTask();
                 },
@@ -127,7 +128,7 @@ export class UrednikNaucneComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
                 },

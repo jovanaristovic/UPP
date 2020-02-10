@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {UserService} from '../../Services/users/user.service';
 import {prepareProfile} from 'selenium-webdriver/firefox';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-scientific-field',
@@ -22,7 +23,7 @@ export class ScientificFieldComponent implements OnInit {
    processInstanceId = '';
    potvrdaReg = false;
 
-  constructor(private repoService: RepositoryService, private router: Router,  private userService: UserService) {
+  constructor(public toastr: ToastrManager, private repoService: RepositoryService, private router: Router,  private userService: UserService) {
       this.getAnotherTask();
   }
 
@@ -49,7 +50,7 @@ export class ScientificFieldComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success!');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     this.getAnotherTask();
@@ -67,7 +68,7 @@ export class ScientificFieldComponent implements OnInit {
                 res => {
                     // console.log(res);
 
-                    alert('Success!');
+                    this.toastr.successToastr('Success!', 'Success');
                     // this.getTasks();
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     // this.getAnotherTask();

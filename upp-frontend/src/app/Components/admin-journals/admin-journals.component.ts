@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-admin-journals',
@@ -19,7 +20,7 @@ export class AdminJournalsComponent implements OnInit {
     taskId = '';
     href = '';
 
-  constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
+  constructor(public toastr: ToastrManager, private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
      const x = repositoryService.getTaskForAdminJournal();
 
@@ -57,7 +58,7 @@ export class AdminJournalsComponent implements OnInit {
             res => {
                 // console.log(res);
 
-                alert('Success!');
+                this.toastr.successToastr('Success!', 'Success');
                 // this.getTasks();
                 // this.router.navigate(['/task',  this.processInstanceId]);
                 // this.getAnotherTask();

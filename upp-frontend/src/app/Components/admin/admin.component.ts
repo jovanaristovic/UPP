@@ -3,6 +3,7 @@ import {UserService} from '../../Services/users/user.service';
 import {RepositoryService} from '../../Services/repository/repository.service';
 import {Router} from '@angular/router';
 import {RegistrationComponent} from '../registration/registration.component';
+import {ToastrManager} from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +20,7 @@ export class AdminComponent implements OnInit {
     private nextTask = '';
     taskId = '';
 
-    constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
+    constructor(public toastr: ToastrManager, private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
 
 
         const x = repositoryService.getTaskForAdmin();
@@ -59,7 +60,7 @@ export class AdminComponent implements OnInit {
             res => {
                 // console.log(res);
 
-                alert('Success!');
+                this.toastr.successToastr('Success!', 'Success');
                 // this.getTasks();
                 // this.router.navigate(['/task',  this.processInstanceId]);
                 // this.getAnotherTask();
