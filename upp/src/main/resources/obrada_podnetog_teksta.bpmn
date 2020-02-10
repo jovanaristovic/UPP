@@ -104,16 +104,32 @@ execution.setVariable("clanarinaAktivna", clanarinaAktivna);</camunda:script>
     <bpmn:userTask id="unosenjeInformacijaORadu" name="Unosenje osnovnih informacija o radu" camunda:candidateGroups="autor">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naslov" label="Naslov" type="string" />
-          <camunda:formField id="apstrakt" label="Apstrakt" type="string" />
-          <camunda:formField id="kljucniPojmovi" label="Kljucni pojmovi" type="string" />
+          <camunda:formField id="naslov" label="Naslov" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="apstrakt" label="Apstrakt" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="kljucniPojmovi" label="Kljucni pojmovi" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="naucnaOblast" label="Naucna oblast" type="enum" />
           <camunda:formField id="pdf" label="PDF fajl" type="string">
             <camunda:properties>
               <camunda:property id="type" value="file" />
             </camunda:properties>
           </camunda:formField>
-          <camunda:formField id="brKoautora" label="Broj koautora" type="long" />
+          <camunda:formField id="brKoautora" label="Broj koautora" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_18l7q7h</bpmn:incoming>
@@ -191,9 +207,21 @@ execution.setVariable("clanarinaAktivna", clanarinaAktivna);</camunda:script>
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="komentar_urednika" label="Komentar" type="string" defaultValue="${komentar_za_pdf}" />
-          <camunda:formField id="naslov" label="Naslov" type="string" defaultValue="${naslov}" />
-          <camunda:formField id="apstrakt" label="Apstrakt" type="string" defaultValue="${apstrakt}" />
-          <camunda:formField id="kljucniPojmovi" label="Kljucni pojmovi" type="string" defaultValue="${kljucniPojmovi}" />
+          <camunda:formField id="naslov" label="Naslov" type="string" defaultValue="${naslov}">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="apstrakt" label="Apstrakt" type="string" defaultValue="${apstrakt}">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="kljucniPojmovi" label="Kljucni pojmovi" type="string" defaultValue="${kljucniPojmovi}">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="pdf" label="Novi pdf fajl" type="string">
             <camunda:properties>
               <camunda:property id="type" value="file" />
@@ -570,11 +598,31 @@ execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script
     <bpmn:userTask id="Task_0s0vio0" name="Dodavanje koautora" camunda:candidateGroups="autor">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="imeKoautora" label="Ime koautora" type="string" />
-          <camunda:formField id="prezimeKoautora" label="Prezime" type="string" />
-          <camunda:formField id="emailKoautora" label="Email" type="string" />
-          <camunda:formField id="gradKoautora" label="Grad" type="string" />
-          <camunda:formField id="drzavaKoautora" label="Drzava" type="string" />
+          <camunda:formField id="imeKoautora" label="Ime koautora" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="prezimeKoautora" label="Prezime" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="emailKoautora" label="Email" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="gradKoautora" label="Grad" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="drzavaKoautora" label="Drzava" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1dzk5w1</bpmn:incoming>
@@ -670,7 +718,11 @@ execution.setVariable("ulogovan", ulogovan);</camunda:script>
     <bpmn:userTask id="Task_1o9n2yr" name="Unosenje broja recenzenata" camunda:candidateGroups="urednikOblasti">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="brojRecenzenata" label="Unesite broj recenzenata (min 2)" type="long" />
+          <camunda:formField id="brojRecenzenata" label="Unesite broj recenzenata (min 2)" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1dx4bss</bpmn:incoming>

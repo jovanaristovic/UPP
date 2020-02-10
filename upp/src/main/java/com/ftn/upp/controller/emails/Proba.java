@@ -1,16 +1,12 @@
 package com.ftn.upp.controller.emails;
 
 
-import com.ftn.upp.dto.FormSubmissionDto;
-import com.ftn.upp.dto.FormSubmissionWithFileDto;
 import com.ftn.upp.dto.email.EmailDto;
 
 import com.ftn.upp.dto.email.EmailDtoDrugi;
 import com.ftn.upp.dto.email.EmailPdfDto;
-import com.ftn.upp.model.User;
 import com.ftn.upp.services.JournalService;
 import com.ftn.upp.services.UserService;
-import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
