@@ -35,6 +35,9 @@ INSERT INTO users (reviewer, name, last_name, email,password, enabled, username)
 INSERT INTO users (reviewer, name, last_name, email,password, enabled, username) VALUES (false , 'Todor','Todorovic','urednikNaucne5@yahoo.com','$2a$10$d2bYEem94Do7dck2CP14M.p4u3r2CPb7Di9uyrkxdDF0ibSbU5Bpy',true, 'urednikNaucne5' );
 INSERT INTO users (reviewer, name, last_name, email,password, enabled, username) VALUES (false , 'Todor','Todorovic','urednikNaucne6@yahoo.com','$2a$10$d2bYEem94Do7dck2CP14M.p4u3r2CPb7Di9uyrkxdDF0ibSbU5Bpy',true, 'urednikNaucne6' );
 
+INSERT INTO users (reviewer, name, last_name, email,password, enabled, username) VALUES (true, 'Todor','Todorovic','recenzent4@yahoo.com','$2a$10$d2bYEem94Do7dck2CP14M.p4u3r2CPb7Di9uyrkxdDF0ibSbU5Bpy',true, 'recenzent4' );
+
+
 
 
 
@@ -66,12 +69,18 @@ INSERT INTO user_authority (user_id, authority_id) VALUES (16, 6);
 
 
 INSERT INTO journal (issn, payment, title, is_active) values ('123ff', 'potrebno placanje', 'Nacionalna_geografija', true);
-INSERT INTO journal (issn, payment, title, is_active) values ('123kdk', 'open access', 'Hello', true);
+INSERT INTO journal (issn, payment, title, is_active) values ('123kdk', 'open access', 'Cosmopolitan', true);
 
 INSERT INTO journal_users(journal_id, users_id) values (1,12);
 INSERT INTO journal_users(journal_id, users_id) values (2,13);
 INSERT INTO journal_users(journal_id, users_id) values (1,14);
 INSERT INTO journal_users(journal_id, users_id) values (2,15);
+
+INSERT INTO journal_users(journal_id, users_id) values (1,9);
+INSERT INTO journal_users(journal_id, users_id) values (2,10);
+INSERT INTO journal_users(journal_id, users_id) values (1,11);
+INSERT INTO journal_users(journal_id, users_id) values (2,17);
+
 
 
 

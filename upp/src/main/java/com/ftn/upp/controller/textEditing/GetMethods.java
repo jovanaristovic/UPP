@@ -215,6 +215,24 @@ public class GetMethods {
         return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
     }
 
+    @GetMapping(path = "/recenzent/{processInstanceId}", produces = "application/json")
+    public @ResponseBody
+    FormFieldsDto getRecenzent( @PathVariable String processInstanceId) {
+
+        processInstanceId = processInstanceId.substring(1, processInstanceId.length() - 1);
+        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).taskCandidateGroup("recenzent").list().get(0);
+
+
+        TaskFormData tfd = formService.getTaskFormData(task.getId());
+        List<FormField> properties = tfd.getFormFields();
+        for(FormField fp : properties) {
+            System.out.println(fp.getId() + fp.getType());
+        }
+
+
+        return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+    }
+
     @GetMapping(value = "/recenzenti/{processInstanceId}")
     public ResponseEntity<List<UserDto>> getRecenzenti(@PathVariable String processInstanceId){
 

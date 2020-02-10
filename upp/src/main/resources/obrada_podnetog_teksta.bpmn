@@ -280,6 +280,10 @@ execution.setVariable("recenzenti_ID", recenzenti_ID);</camunda:script>
           <camunda:script scriptFormat="javascript">var postoje_recenzenti = "true";
 execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script>
         </camunda:executionListener>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">var lista = new java.util.ArrayList();
+execution.setVariable("listaRecenzenata", lista);</camunda:script>
+        </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ui496j</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ppxj0h</bpmn:outgoing>
@@ -320,20 +324,31 @@ execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script
         <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">${brojRecenzenata}</bpmn:loopCardinality>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
-    <bpmn:userTask id="Task_102mz57" name="Obavljanje recenzije" camunda:assignee="${recenzentID}">
+    <bpmn:userTask id="Task_102mz57" name="Obavljanje recenzije" camunda:candidateGroups="recenzent">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="naslov" label="Naslov" type="string" />
-          <camunda:formField id="pdf" label="Pdf fajl" type="string" />
-          <camunda:formField id="komentar" label="Komentar autoru" type="string" />
-          <camunda:formField id="ocena" label="Ocena" type="long" />
+          <camunda:formField id="naslov" label="Naslov" type="string" defaultValue="${naslov}" />
+          <camunda:formField id="komentar" label="Komentar autoru" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="ocena" label="Ocena" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
           <camunda:formField id="preporukaZaObjavljivanje" label="Preporuka za objavljivanje rada" type="enum">
             <camunda:value id="prihvatiti" name="Prihvatiti" />
             <camunda:value id="prihvatitiUzManjeIspravke" name="Prihvatiti uz manje ispravke" />
             <camunda:value id="uslovnoPrihvatiti" name="Uslovno prihvatiti uz vece ispravke" />
             <camunda:value id="odbitiRad" name="Odbiti rad" />
           </camunda:formField>
-          <camunda:formField id="komentarUredniku" label="Komentar uredniku" type="string" />
+          <camunda:formField id="komentarUredniku" label="Komentar uredniku" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1wer3lk</bpmn:incoming>
@@ -343,17 +358,17 @@ execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script
     <bpmn:boundaryEvent id="IntermediateThrowEvent_0d3pq8x" name="25s" attachedToRef="Task_102mz57">
       <bpmn:outgoing>SequenceFlow_11ojzxa</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT${vremeRecenziranja}S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT150000S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
-    <bpmn:serviceTask id="Task_1b54a4r" name="Obavestenje recenzentu da treba da izvrsi recenziju" camunda:expression="${true}">
+    <bpmn:serviceTask id="Task_1b54a4r" name="Obavestenje recenzentu da treba da izvrsi recenziju, slanje pdf-a mail-om" camunda:class="com.ftn.upp.services.ImplementServicesCamunda.SendEmailRecenzentPdf">
       <bpmn:incoming>SequenceFlow_1os9ey5</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_18h67wn</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1wer3lk</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0n2ixgx" sourceRef="IntermediateThrowEvent_0ryh6b7" targetRef="Task_1vsdzvg" />
     <bpmn:sequenceFlow id="SequenceFlow_11ojzxa" sourceRef="IntermediateThrowEvent_0d3pq8x" targetRef="Task_1xobngd" />
-    <bpmn:serviceTask id="Task_1xobngd" name="Obavestenje uredniku da rezenziranje nije izvresno na vreme" camunda:expression="${true}">
+    <bpmn:serviceTask id="Task_1xobngd" name="Obavestenje uredniku da rezenziranje nije izvresno na vreme" camunda:class="com.ftn.upp.services.ImplementServicesCamunda.SendEmailRecenziranjeNijeNaVreme">
       <bpmn:incoming>SequenceFlow_11ojzxa</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0yh8u9s</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_02jbkfz</bpmn:outgoing>
@@ -372,7 +387,7 @@ execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script
     <bpmn:sequenceFlow id="SequenceFlow_1os9ey5" sourceRef="Task_1f439u6" targetRef="Task_1b54a4r" />
     <bpmn:sequenceFlow id="SequenceFlow_1wq6ipt" sourceRef="Task_102mz57" targetRef="Task_1msvc3f" />
     <bpmn:sequenceFlow id="SequenceFlow_0o4f3y2" sourceRef="Task_1msvc3f" targetRef="Task_192860c" />
-    <bpmn:serviceTask id="Task_1msvc3f" name="Obavestavanje urednika da je recenzija zavrsena" camunda:expression="${true}">
+    <bpmn:serviceTask id="Task_1msvc3f" name="Obavestavanje urednika da je recenzija zavrsena" camunda:class="com.ftn.upp.services.ImplementServicesCamunda.SendEmailUrednikuRecenzijaZavrsena">
       <bpmn:incoming>SequenceFlow_1wq6ipt</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0bpqmj7</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0o4f3y2</bpmn:outgoing>
@@ -536,7 +551,11 @@ execution.setVariable("postoje_recenzenti", postoje_recenzenti);</camunda:script
     <bpmn:userTask id="Task_13dh7xq" name="Zadavanje roka za recenziju" camunda:candidateGroups="urednikOblasti">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="vremeRecenziranja" label="Rok za recenziju" type="long" />
+          <camunda:formField id="vremeRecenziranja" label="Rok za recenziju" type="long">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1chjvi7</bpmn:incoming>

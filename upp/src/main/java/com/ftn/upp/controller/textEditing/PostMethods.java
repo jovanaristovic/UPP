@@ -28,6 +28,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.*;
 
 @Controller
@@ -271,7 +272,7 @@ public class PostMethods {
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
 
-        List<FormSubmissionDto> workDto = (List<FormSubmissionDto>) runtimeService.getVariable(processInstanceId,"newWork");
+        List<FormSubmissionDto> workDto = (List<FormSubmissionDto>) runtimeService.getVariable(processInstanceId, "newWork");
 
         FormSubmissionDto titleDto = null;
         for (FormSubmissionDto dto1 : workDto) {
@@ -290,7 +291,18 @@ public class PostMethods {
         Work work = this.workRepository.findWorkByTitle(titleDto.getFieldValue());
         work.getUsers().add(user);
         this.workRepository.save(work);
-//        runtimeService.setVariable(processInstanceId, "pregledanRad", dto );
+
+        List<FormSubmissionDto> listaDto = (List<FormSubmissionDto>) runtimeService.getVariable(processInstanceId, "listaRecenzenata");
+        if (listaDto.isEmpty()) {
+            runtimeService.setVariable(processInstanceId, "listaRecenzenata", dto);
+
+        }
+        else {
+
+            listaDto.add(recDto);
+            runtimeService.setVariable(processInstanceId, "listaRecenzenata", listaDto);
+
+        }
 
         formService.submitTaskForm(taskId, map);
         return  new ResponseEntity<>(HttpStatus.OK);
@@ -307,6 +319,22 @@ public class PostMethods {
 //
 //
 //        runtimeService.setVariable(processInstanceId, "pregledanPdf", dto );
+        formService.submitTaskForm(taskId, map);
+        return  new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
+    @PostMapping(path = "/recenzija/{taskId}", produces = "application/json")
+    public ResponseEntity postRecenzija(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
+
+
+        Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId = task.getProcessInstanceId();
+        HashMap<String, Object> map = this.mapListToDto(dto);
+
+
+        runtimeService.setVariable(processInstanceId, "recenziranRad", dto );
         formService.submitTaskForm(taskId, map);
         return  new ResponseEntity<>(HttpStatus.OK);
 

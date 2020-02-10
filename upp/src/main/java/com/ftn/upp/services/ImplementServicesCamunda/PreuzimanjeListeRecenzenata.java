@@ -45,7 +45,7 @@ public class PreuzimanjeListeRecenzenata implements JavaDelegate {
 
             List<Authority> authorities = (List<Authority>) u.getAuthorities();
             for (Authority a : authorities) {
-                if (a.getName().equals("REDACTOR_SCIENCE_FIELD")) {
+                if (a.getName().equals("REVIEWER")) {
                     recenzenti.add(u);
                 }
             }
