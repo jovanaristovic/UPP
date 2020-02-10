@@ -10,7 +10,7 @@
 
     <ul id="user" class="navbar-nav ml-auto" style="margin-right: 5%">
 
-      <li *ngIf="userRole === 'AUTHOR'"  class="nav-item active" >
+      <li *ngIf="userRole === 'AUTHOR' || userRole=== ''"   class="nav-item active" >
         <a class="nav-link" routerLink="textEdit" >Kreiranje novog rada</a>
       </li>
       <li *ngIf="userRole === 'REDACTOR'"  class="nav-item active" >
@@ -21,6 +21,9 @@
       </li>
       <li *ngIf="userRole === 'REDACTOR_SCIENCE_FIELD'"   class="nav-item active" >
         <a class="nav-link" routerLink="urednikNaucne" >Odabir recenzenata</a>
+      </li>
+      <li *ngIf="userRole === 'REVIEWER'"   class="nav-item active" >
+        <a class="nav-link" routerLink="recenziranje" >Recenziranje radova</a>
       </li>
       <!--<li  class="nav-item active" >-->
         <!--<a class="nav-link" routerLink="corectData" >UREDNIK Ispravljanje podataka o casopisu</a>-->

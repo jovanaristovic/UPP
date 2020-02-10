@@ -64,14 +64,16 @@ export class UrednikNaucneComponent implements OnInit {
 
     onSubmit(value, form) {
         const o = new Array();
+        this.vremeRec = false;
+        this.dodavanjeRecenzenta = false;
 
         for (const property in value) {
             // console.log(property);
             o.push({fieldId : property, fieldValue : value[property]});
-
+            console.log(property + ' propertyyyy')
             if (property === 'vremeRecenziranja') {
                 this.vremeRec = true;
-            } else if (property === 'recenzent') {
+            } else if (property === 'email') {
                 this.dodavanjeRecenzenta = true;
             }
             // else if (property === 'uplata') {
@@ -87,7 +89,8 @@ export class UrednikNaucneComponent implements OnInit {
             // }
 
         }
-        if (this.dodavanjeRecenzenta === true) {
+        if (this.dodavanjeRecenzenta === true && this.vremeRec === false) {
+            console.log('dodavanje recenzenta');
             const x = this.userService.postDodavanjeRecenzenata(this.formFieldsDto.taskId, o);
 
             x.subscribe(
@@ -104,7 +107,8 @@ export class UrednikNaucneComponent implements OnInit {
 
                 }
             );
-        } else if (this.vremeRec === true) {
+        } else if (this.vremeRec === true && this.dodavanjeRecenzenta === false) {
+            console.log(' vreme rec');
             const x = this.userService.postRokRecenzije(this.formFieldsDto.taskId, o);
 
             x.subscribe(
@@ -122,6 +126,7 @@ export class UrednikNaucneComponent implements OnInit {
                 }
             );
         } else {
+            console.log('broj rec');
             const x = this.userService.postBrojRecenzenata(this.formFieldsDto.taskId, o);
 
             x.subscribe(
@@ -154,7 +159,7 @@ export class UrednikNaucneComponent implements OnInit {
 
                 this.formFieldsDto = res;
                 this.formFields = res.formFields;
-                console.log(this.formFields);
+                // console.log(this.formFields);
                 // for (const field of this.formFields) {
                 //     if (field.id === 'recenzent') {
                 //         this.dodavanjeRecenzenta = true;

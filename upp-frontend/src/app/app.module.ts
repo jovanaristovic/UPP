@@ -28,6 +28,7 @@ import { TextEditComponent } from './Components/text-edit/text-edit.component';
 import { PregledRadovaComponent } from './Components/pregled-radova/pregled-radova.component';
 import { KorekcijaPodatakaORaduComponent } from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
 import { UrednikNaucneComponent } from './Components/urednik-naucne/urednik-naucne.component';
+import { RecenziranjeComponent } from './Components/recenziranje/recenziranje.component';
 
 
 const Routes = [
@@ -56,7 +57,8 @@ const Routes = [
       TextEditComponent,
       PregledRadovaComponent,
       KorekcijaPodatakaORaduComponent,
-      UrednikNaucneComponent
+      UrednikNaucneComponent,
+      RecenziranjeComponent
   ],
   imports: [
       BrowserModule,

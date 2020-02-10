@@ -19,6 +19,7 @@ export class PregledRadovaComponent implements OnInit {
     private nextTask = '';
     taskId = '';
     pregledanPdf: boolean;
+    odbijenOdma = false;
 
 
   constructor(private userService: UserService, private repositoryService: RepositoryService, private router: Router) {
@@ -48,7 +49,13 @@ export class PregledRadovaComponent implements OnInit {
       console.log(this.pregledanPdf);
       const o = new Array();
       for (const property in value) {
-
+          console.log(property);
+            if (property === 'relevantan') {
+                console.log(value[property]);
+                if (value[property] === '') {
+                    this.odbijenOdma = true;
+                }
+            }
             // console.log(property);
             // console.log(value[property]);
             o.push({fieldId: property, fieldValue: value[property]});
@@ -82,8 +89,9 @@ export class PregledRadovaComponent implements OnInit {
                     // if (res !== 'true') {
                     //     this.router.navigate(['/home']);
                     // }
-
-                    this.getAnotherTask();
+                    if (this.odbijenOdma === false) {
+                        this.getAnotherTask();
+                    }
                     // this.router.navigate(['/task',  this.processInstanceId]);
                     // this.getAnotherTask();
                     // this.router.navigate(['/home']);

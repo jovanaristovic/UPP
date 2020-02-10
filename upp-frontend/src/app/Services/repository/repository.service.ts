@@ -91,4 +91,9 @@ export class RepositoryService {
         return this.httpClient.get('api/get/recenzenti/'.concat(processInstanceId)) as Observable<any>;
 
     }
+
+    getTasksRecenzent(processInstanceId) {
+        return this.httpClient.get('api/get/recenzent/'.concat(processInstanceId)) as Observable<any>;
+
+    }
 }

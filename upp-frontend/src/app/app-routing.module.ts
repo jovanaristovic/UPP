@@ -15,6 +15,7 @@ import {TextEditComponent} from './Components/text-edit/text-edit.component';
 import {PregledRadovaComponent} from './Components/pregled-radova/pregled-radova.component';
 import {KorekcijaPodatakaORaduComponent} from './Components/korekcija-podataka-oradu/korekcija-podataka-oradu.component';
 import {UrednikNaucneComponent} from './Components/urednik-naucne/urednik-naucne.component';
+import {RecenziranjeComponent} from "./Components/recenziranje/recenziranje.component";
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     {path: 'textEdit', component: TextEditComponent },
     {path: 'pregledRadova', component: PregledRadovaComponent},
     {path: 'korekcijaRada', component: KorekcijaPodatakaORaduComponent},
-    {path: 'urednikNaucne', component: UrednikNaucneComponent}
+    {path: 'urednikNaucne', component: UrednikNaucneComponent},
+    {path: 'recenziranje', component: RecenziranjeComponent}
 
 
 ];

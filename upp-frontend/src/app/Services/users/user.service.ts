@@ -116,12 +116,17 @@ export class UserService {
     }
 
     postDodavanjeRecenzenata(taskId, rec) {
-        return this.httpClient.post('api/post/dodavanje/recenzenta//'.concat(taskId), rec) as Observable<any>;
+        return this.httpClient.post('api/post/dodavanje/recenzenta/'.concat(taskId), rec) as Observable<any>;
 
     }
 
     postRokRecenzije(taskId, rok) {
         return this.httpClient.post('api/post/rok/recenzija/'.concat(taskId), rok) as Observable<any>;
+
+    }
+
+    postRecenziranRad(taskId, recenzija) {
+        return this.httpClient.post('api/post/recenzija/'.concat(taskId), recenzija) as Observable<any>;
 
     }
 
