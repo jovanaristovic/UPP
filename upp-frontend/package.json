@@ -23,7 +23,7 @@
     "@auth0/angular-jwt": "^3.0.1",
     "bootstrap": "^4.4.1",
     "cors": "^2.8.5",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng6-toastr-notifications": "^1.0.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
